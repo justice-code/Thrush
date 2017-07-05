@@ -2,12 +2,16 @@ package org.eddy.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
- * Created by eddy on 2017/7/5.
+ * Created by Justice-love on 2017/7/5.
  */
 @Getter @Setter
+@ConfigurationProperties("thrush.12306.url")
+@Component
 public class UrlConfig {
 
-    private String initUrl = "https://kyfw.12306.cn/otn/login/init";
+    private String initUrl;
 }

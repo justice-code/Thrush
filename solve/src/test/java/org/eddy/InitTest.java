@@ -1,6 +1,6 @@
 package org.eddy;
 
-import org.eddy.http.HttpUtil;
+import org.eddy.http.HttpRequest;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class InitTest {
 
     @Test
     public void test() throws IOException, NoSuchAlgorithmException, KeyManagementException {
-        HttpUtil httpUtil = new HttpUtil();
-        httpUtil.init();
+        HttpRequest httpRequest = new HttpRequest();
+        httpRequest.init();
     }
 }

@@ -12,6 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.eddy.config.UrlConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -25,11 +27,13 @@ import java.security.cert.X509Certificate;
 /**
  * Created by Justice-love on 2017/7/5.
  */
-public class HttpUtil {
+@Component
+public class HttpRequest {
 
     private static PoolingHttpClientConnectionManager pools;
 
-    private UrlConfig urlConfig = new UrlConfig();
+    @Autowired
+    private UrlConfig urlConfig;
 
     {
         if (pools == null) {

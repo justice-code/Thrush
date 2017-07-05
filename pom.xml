@@ -10,6 +10,7 @@
     <modules>
         <module>base</module>
         <module>solve</module>
+        <module>im</module>
     </modules>
     <packaging>pom</packaging>
     <name>thrush</name>

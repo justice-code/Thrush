@@ -12,5 +12,36 @@
     <groupId>org.eddy</groupId>
     <artifactId>web</artifactId>
     <name>web</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <start-class>org.eddy.ApplicationStart</start-class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                    <jvmArguments>-parameters</jvmArguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.eddy</groupId>
+            <artifactId>solve</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Created by Justice-love on 2017/7/5.
  */
 @Getter @Setter
-@ConfigurationProperties("thrush.12306.url")
+@ConfigurationProperties("thrush.url")
 @Component
 public class UrlConfig {
 

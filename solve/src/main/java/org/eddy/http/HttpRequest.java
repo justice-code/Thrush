@@ -12,6 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.eddy.config.UrlConfig;
+import org.eddy.manager.CookieManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +53,7 @@ public class HttpRequest {
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
         HttpGet httpGet = new HttpGet(urlConfig.getInitUrl());
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            System.out.println(response);
+            CookieManager.touch(response);
         }
     }
 

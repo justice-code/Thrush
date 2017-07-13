@@ -1,5 +1,7 @@
 package org.eddy.manager;
 
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.eddy.solve.ThrushCookie;
 
 import java.util.List;
@@ -9,5 +11,12 @@ import java.util.List;
  */
 public class CookieManager {
 
+    private static final String COOKIE_HEADER = "Set-Cookie";
+
     private static ThreadLocal<List<ThrushCookie>> cookieManager = new InheritableThreadLocal<List<ThrushCookie>>();
+
+    public static void touch(HttpResponse response) {
+        Header[] headers = response.getHeaders(COOKIE_HEADER);
+
+    }
 }

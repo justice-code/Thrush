@@ -4,7 +4,9 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.eddy.solve.ThrushCookie;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -13,10 +15,15 @@ public class CookieManager {
 
     private static final String COOKIE_HEADER = "Set-Cookie";
 
-    private static ThreadLocal<List<ThrushCookie>> cookieManager = new InheritableThreadLocal<List<ThrushCookie>>();
+    private static ThreadLocal<List<ThrushCookie>> cookieManager = new InheritableThreadLocal<>();
 
     public static void touch(HttpResponse response) {
         Header[] headers = response.getHeaders(COOKIE_HEADER);
-
+        List<ThrushCookie> cookies = Arrays.stream(headers).map(header -> {
+            String cookie = header.getValue().split(";")[0];
+            String[] kv = cookie.trim().split("=");
+            return new ThrushCookie(kv[0], kv[1]);
+        }).collect(Collectors.toList());
+        cookieManager.set(cookies);
     }
 }

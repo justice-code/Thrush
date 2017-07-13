@@ -1,0 +1,4 @@
+thrush:
+  12306:
+    url:
+      initUrl: https://kyfw.12306.cn/otn/login/init

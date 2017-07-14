@@ -1,9 +1,7 @@
 package org.eddy.manager;
 
 import org.apache.http.Header;
-import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.message.BasicHeader;
 import org.eddy.solve.ThrushCookie;
 

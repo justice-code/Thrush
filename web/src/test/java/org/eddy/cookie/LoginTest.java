@@ -27,6 +27,7 @@ public class LoginTest {
         httpRequest.init();
         httpRequest.auth();
         byte[] bytes = httpRequest.loginCaptchaImage();
+        FileUtils.writeByteArrayToFile(new File("/Users/eddy/Desktop/image.jpg"), bytes);
     }
 
     @Test

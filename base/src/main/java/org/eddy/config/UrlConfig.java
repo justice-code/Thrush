@@ -16,4 +16,6 @@ public class UrlConfig {
     private String initUrl;
 
     private String loginCaptcha;
+
+    private String auth;
 }

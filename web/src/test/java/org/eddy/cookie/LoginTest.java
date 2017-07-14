@@ -1,5 +1,6 @@
 package org.eddy.cookie;
 
+import org.apache.commons.io.FileUtils;
 import org.eddy.ApplicationStart;
 import org.eddy.http.HttpRequest;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -23,6 +25,14 @@ public class LoginTest {
     @Test
     public void test1() throws IOException {
         httpRequest.init();
+        httpRequest.auth();
         byte[] bytes = httpRequest.loginCaptchaImage();
     }
+
+    @Test
+    public void test2() throws IOException {
+        byte[] bytes = httpRequest.loginCaptchaImage();
+        FileUtils.writeByteArrayToFile(new File("/Users/eddy/Desktop/image.jpg"), bytes);
+    }
+
 }

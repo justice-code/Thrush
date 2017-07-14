@@ -1,5 +1,8 @@
 package org.eddy.http;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,12 +14,19 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.util.EntityUtils;
 import org.eddy.config.UrlConfig;
 import org.eddy.manager.CookieManager;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +35,12 @@ import org.springframework.stereotype.Component;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -69,17 +79,13 @@ public class HttpRequest {
     public byte[] loginCaptchaImage() {
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
         HttpGet httpGet = new HttpGet(urlConfig.getLoginCaptcha());
-        httpGet.setHeader(CookieManager.cookieHeader());
-        byte[] bytes = new byte[0];
+        byte[] result = new byte[0];
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            CookieManager.touch(response);
-            InputStream stream = response.getEntity().getContent();
-            bytes = new byte[stream.available()];
-            stream.read(bytes);
+            result = EntityUtils.toByteArray(response.getEntity());
         } catch (IOException e) {
-            logger.error("get loginCaptchaImage error", e);
+            logger.error("loginCaptchaImage error", e);
         }
-        return bytes;
+        return result;
     }
 
     //******************************** 私有方法 ****************************************
@@ -107,6 +113,8 @@ public class HttpRequest {
             throw new RuntimeException(e);
         }
     }
+
+
 
     //******************************** 代码块 ****************************************
     {

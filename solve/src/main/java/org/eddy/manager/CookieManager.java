@@ -1,7 +1,10 @@
 package org.eddy.manager;
 
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.message.BasicHeader;
 import org.eddy.solve.ThrushCookie;
 
 import java.util.*;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 public class CookieManager {
 
     private static final String COOKIE_HEADER = "Set-Cookie";
+    private static final String COOKIE ="Cookie";
 
     private static ThreadLocal<Set<ThrushCookie>> cookieManager = new InheritableThreadLocal<>();
 
@@ -26,6 +30,11 @@ public class CookieManager {
         Set<ThrushCookie> result = Optional.ofNullable(cookieManager.get()).orElse(new HashSet<>());
         result.addAll(cookies);
         cookieManager.set(cookies);
+    }
+
+    public static Header cookieHeader() {
+        List<String> cookies = Optional.ofNullable(cookieManager.get()).orElse(new HashSet<>()).stream().map(cookie -> cookie.getKey() + "=" + cookie.getValue() + ";").collect(Collectors.toList());
+        return new BasicHeader(COOKIE, String.join(" ", cookies));
     }
 
 

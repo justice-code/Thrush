@@ -14,4 +14,6 @@ import org.springframework.stereotype.Component;
 public class UrlConfig {
 
     private String initUrl;
+
+    private String loginCaptcha;
 }

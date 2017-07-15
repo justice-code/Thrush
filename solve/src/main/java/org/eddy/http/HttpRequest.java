@@ -1,9 +1,5 @@
 package org.eddy.http;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -14,7 +10,6 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -22,11 +17,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.eddy.config.UrlConfig;
 import org.eddy.manager.CookieManager;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +25,9 @@ import org.springframework.stereotype.Component;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.*;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -50,13 +37,15 @@ public class HttpRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRequest.class);
 
+    private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36";
+
     private static PoolingHttpClientConnectionManager pools;
 
     @Autowired
     private UrlConfig urlConfig;
 
     public void init() {
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
+        CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(urlConfig.getInitUrl());
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             CookieManager.touch(response);
@@ -66,7 +55,7 @@ public class HttpRequest {
     }
 
     public void auth() {
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
+        CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(urlConfig.getAuth());
         httpPost.setEntity(new StringEntity("appid=otn", ContentType.APPLICATION_JSON));
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
@@ -77,7 +66,7 @@ public class HttpRequest {
     }
 
     public byte[] loginCaptchaImage() {
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
+        CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(urlConfig.getLoginCaptcha());
         byte[] result = new byte[0];
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
@@ -88,7 +77,18 @@ public class HttpRequest {
         return result;
     }
 
+    public void login(String randCode) {
+        CloseableHttpClient httpClient = buildHttpClient();
+    }
+
+
+
     //******************************** 私有方法 ****************************************
+    private CloseableHttpClient buildHttpClient() {
+        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
+        return httpClient;
+    }
+
     private SSLContext createContext() {
         try {
             SSLContext context = SSLContext.getInstance("SSL");

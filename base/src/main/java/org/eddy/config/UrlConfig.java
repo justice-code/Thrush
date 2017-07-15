@@ -18,4 +18,6 @@ public class UrlConfig {
     private String loginCaptcha;
 
     private String auth;
+
+    private String loginUrl;
 }

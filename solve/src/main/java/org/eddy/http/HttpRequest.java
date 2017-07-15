@@ -1,5 +1,6 @@
 package org.eddy.http;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -16,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.eddy.config.UrlConfig;
+import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +28,11 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -44,9 +49,13 @@ public class HttpRequest {
     @Autowired
     private UrlConfig urlConfig;
 
+    @Autowired
+    private UserConfig userConfig;
+
     public void init() {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(urlConfig.getInitUrl());
+
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             CookieManager.touch(response);
         } catch (IOException e) {
@@ -57,7 +66,10 @@ public class HttpRequest {
     public void auth() {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(urlConfig.getAuth());
+
+        httpPost.addHeader(CookieManager.cookieHeader());
         httpPost.setEntity(new StringEntity("appid=otn", ContentType.APPLICATION_JSON));
+
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
         } catch (IOException e) {
@@ -68,22 +80,65 @@ public class HttpRequest {
     public byte[] loginCaptchaImage() {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(urlConfig.getLoginCaptcha());
+
+        httpGet.addHeader(CookieManager.cookieHeader());
+
         byte[] result = new byte[0];
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             result = EntityUtils.toByteArray(response.getEntity());
         } catch (IOException e) {
             logger.error("loginCaptchaImage error", e);
         }
+
         return result;
+    }
+
+    public void checkRandCode(String randCode) {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(urlConfig.getCheckCode());
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        httpPost.setEntity(new StringEntity("randCode=" + encode(randCode) + "&rand=sjrand", ContentType.APPLICATION_FORM_URLENCODED));
+
+        try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+        } catch (IOException e) {
+            logger.error("checkRandCode error", e);
+        }
     }
 
     public void login(String randCode) {
         CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(urlConfig.getLoginUrl());
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        String param = "loginUserDTO.user_name=" + encode(userConfig.getUsername()) + "&userDTO.password=" + encode(userConfig.getPassword()) + "&randCode=" + encode(randCode);
+        httpPost.setEntity(new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED));
+
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+        } catch (IOException e) {
+            logger.error("login error", e);
+        }
+
     }
 
 
 
     //******************************** 私有方法 ****************************************
+    private String encode(String param) {
+        Objects.requireNonNull(param);
+        String result = StringUtils.EMPTY;
+
+        try {
+            result = URLEncoder.encode(param, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("encode charset error", e);
+        }
+
+        return result;
+    }
+
     private CloseableHttpClient buildHttpClient() {
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
         return httpClient;

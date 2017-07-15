@@ -3,4 +3,8 @@ thrush:
     initUrl: https://kyfw.12306.cn/otn/login/init
     loginCaptcha: https://kyfw.12306.cn/passport/captcha/captcha-image?login_site=E&module=login&rand=sjrand
     auth: https://kyfw.12306.cn/passport/web/auth/uamtk
+    checkCode: https://kyfw.12306.cn/otn/passcodeNew/checkRandCodeAnsyn
     loginUrl: https://kyfw.12306.cn/otn/login/loginAysnSuggest
+  user:
+    username: username
+    password: password

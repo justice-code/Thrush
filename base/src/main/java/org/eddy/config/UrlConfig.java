@@ -19,5 +19,7 @@ public class UrlConfig {
 
     private String auth;
 
+    private String checkCode;
+
     private String loginUrl;
 }

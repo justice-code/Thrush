@@ -140,8 +140,7 @@ public class HttpRequest {
     }
 
     private CloseableHttpClient buildHttpClient() {
-        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
-        return httpClient;
+        return HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
     }
 
     private SSLContext createContext() {

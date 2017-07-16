@@ -98,7 +98,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(urlConfig.getCheckCode());
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        httpPost.setEntity(new StringEntity("randCode=" + encode(randCode) + "&rand=sjrand", ContentType.APPLICATION_FORM_URLENCODED));
+        httpPost.setEntity(new StringEntity("answer=" + encode(randCode) + "&login_site=E&&rand=sjrand", ContentType.APPLICATION_FORM_URLENCODED));
 
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
@@ -112,7 +112,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(urlConfig.getLoginUrl());
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        String param = "loginUserDTO.user_name=" + encode(userConfig.getUsername()) + "&userDTO.password=" + encode(userConfig.getPassword()) + "&randCode=" + encode(randCode);
+        String param = "username=" + encode(userConfig.getUsername()) + "&password=" + encode(userConfig.getPassword()) + "&appid=otn";
         httpPost.setEntity(new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED));
 
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {

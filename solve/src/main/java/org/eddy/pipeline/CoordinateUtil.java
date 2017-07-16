@@ -18,13 +18,14 @@ public class CoordinateUtil {
         Objects.requireNonNull(numbers);
 
         List<String> coordinates = Arrays.stream(numbers).map(number -> Optional.ofNullable(number).map(n -> {
-            int l = n % 4;
-            int length = LENGTH / 8 * ((l + 1) * 2 - 1);
-            int h = n % 2;
-            int height = HEIGHT / 4 * ((h + 1) * 2 - 1);
+            int l = n % 4 == 0 ? 4 : n % 4;
+            int length = LENGTH / 8 * (l * 2 - 1);
+            int h = n / 4 == 2 ? 2 : (n / 4) + 1;
+            int height = HEIGHT / 4 * (h * 2 - 1);
             return length + "," + height;
         }).orElse("0,0")).collect(Collectors.toList());
 
         return String.join(",", coordinates);
     }
+
 }

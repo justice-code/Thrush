@@ -11,5 +11,5 @@ public class CaptchaNotify {
 
     private String pipeline;
 
-    private String[] number;
+    private Integer[] number;
 }

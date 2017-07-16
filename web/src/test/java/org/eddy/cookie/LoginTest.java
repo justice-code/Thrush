@@ -36,4 +36,12 @@ public class LoginTest {
         FileUtils.writeByteArrayToFile(new File("/Users/eddy/Desktop/image.jpg"), bytes);
     }
 
+    @Test
+    public void test3() {
+        httpRequest.init();
+        httpRequest.auth();
+        byte[] bytes = httpRequest.loginCaptchaImage();
+        httpRequest.checkRandCode("1,3");
+    }
+
 }

@@ -23,19 +23,19 @@ public class NotifyRunnable implements Runnable {
     private String pipelineGroup;
 
     @Autowired
-    private Pipeline pipeline;
+    private LoginPipeline loginPipeline;
 
     @Override
     public void run() {
-        CaptchaNotify notify = pipeline.pollNotify(DEFAULT_TIME);
-        Objects.requireNonNull(notify);
-        if (! StringUtils.equals(notify.getPipeline(), this.getPipelineGroup())) {
+        CaptchaNotify loginNotify = findLoginNotify();
 
-        }
+
     }
 
-    private CaptchaNotify findNotify() {
-        CaptchaNotify notify = pipeline.pollNotify(DEFAULT_TIME);
+    //***************************************************** private *******************************************************
+
+    private CaptchaNotify findLoginNotify() {
+        CaptchaNotify notify = loginPipeline.pollNotify(DEFAULT_TIME);
         Objects.requireNonNull(notify);
 
         if (StringUtils.equals(notify.getPipeline(), this.getPipelineGroup())) {
@@ -43,9 +43,9 @@ public class NotifyRunnable implements Runnable {
         }
 
         try {
-            pipeline.putNotify(notify);
+            loginPipeline.putNotify(notify);
             Thread.sleep(300);
-            return findNotify();
+            return findLoginNotify();
         } catch (InterruptedException e) {
             throw new RuntimeException("findNotify error", e);
         }

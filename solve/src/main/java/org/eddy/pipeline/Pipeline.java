@@ -13,14 +13,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Justice-love on 2017/7/16.
  */
-@Component
 public class Pipeline {
 
     private static final Logger logger = LoggerFactory.getLogger(Pipeline.class);
 
     private BlockingQueue<CaptchaNotify> queue = new LinkedBlockingQueue<>(3_000);
 
-    public void putNotify(CaptchaNotify notify) {
+    protected void putNotify(CaptchaNotify notify) {
         Objects.requireNonNull(notify);
         try {
             queue.put(notify);
@@ -29,7 +28,7 @@ public class Pipeline {
         }
     }
 
-    public CaptchaNotify pollNotify(int time) {
+    protected CaptchaNotify pollNotify(int time) {
         try {
             return queue.poll(time, TimeUnit.MINUTES);
         } catch (InterruptedException e) {

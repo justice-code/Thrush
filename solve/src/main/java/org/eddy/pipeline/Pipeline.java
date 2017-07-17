@@ -22,9 +22,16 @@ public class Pipeline {
         try {
             queue.put(notify);
         } catch (InterruptedException e) {
-            logger.error("putNotify error", e);
+            throw new RuntimeException("put CaptchaNotify error");
         }
     }
 
+    public CaptchaNotify takeNotify() {
+        try {
+            return queue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("take CaptchaNotify error");
+        }
+    }
 
 }

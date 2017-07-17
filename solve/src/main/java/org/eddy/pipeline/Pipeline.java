@@ -3,7 +3,6 @@ package org.eddy.pipeline;
 import org.eddy.solve.CaptchaNotify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;

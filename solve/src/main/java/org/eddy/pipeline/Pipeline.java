@@ -24,7 +24,7 @@ public class Pipeline {
         try {
             queue.put(notify);
         } catch (InterruptedException e) {
-            throw new RuntimeException("put CaptchaNotify error");
+            throw new RuntimeException("put CaptchaNotify error", e);
         }
     }
 
@@ -32,7 +32,7 @@ public class Pipeline {
         try {
             return queue.poll(time, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            throw new RuntimeException("take CaptchaNotify error");
+            throw new RuntimeException("take CaptchaNotify error", e);
         }
     }
 

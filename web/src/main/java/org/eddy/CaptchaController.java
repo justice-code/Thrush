@@ -1,6 +1,8 @@
 package org.eddy;
 
-import org.eddy.web.CaptchaResult;
+import org.eddy.pipeline.LoginPipeline;
+import org.eddy.solve.CaptchaNotify;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,9 @@ import java.util.Objects;
 @RequestMapping("/captcha")
 public class CaptchaController {
 
+
     @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> loginCaptcha(CaptchaResult captchaResult) {
+    public ResponseEntity<Void> loginCaptcha(CaptchaNotify captchaResult) {
         Objects.requireNonNull(captchaResult);
         System.out.println(captchaResult);
         return ResponseEntity.ok().build();

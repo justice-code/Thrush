@@ -18,7 +18,7 @@ public class Pipeline {
 
     private BlockingQueue<CaptchaNotify> queue = new LinkedBlockingQueue<>(3_000);
 
-    protected void putNotify(CaptchaNotify notify) {
+    public void putNotify(CaptchaNotify notify) {
         Objects.requireNonNull(notify);
         try {
             queue.put(notify);
@@ -27,7 +27,7 @@ public class Pipeline {
         }
     }
 
-    protected CaptchaNotify pollNotify(int time) {
+    public CaptchaNotify pollNotify(int time) {
         try {
             return queue.poll(time, TimeUnit.MINUTES);
         } catch (InterruptedException e) {

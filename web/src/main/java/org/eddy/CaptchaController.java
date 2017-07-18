@@ -18,11 +18,13 @@ import java.util.Objects;
 @RequestMapping("/captcha")
 public class CaptchaController {
 
+    @Autowired
+    private LoginPipeline loginPipeline;
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> loginCaptcha(CaptchaNotify captchaResult) {
         Objects.requireNonNull(captchaResult);
-        System.out.println(captchaResult);
+        loginPipeline.putNotify(captchaResult);
         return ResponseEntity.ok().build();
     }
 }

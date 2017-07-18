@@ -17,7 +17,7 @@ public class NotifyThreadFactory implements ThreadFactory{
         SecurityManager s = System.getSecurityManager();
         group = (s != null) ? s.getThreadGroup() :
                 Thread.currentThread().getThreadGroup();
-        namePrefix = "pool-" + poolNumber.getAndIncrement() + "-thread-";
+        namePrefix = "pool-notify-" + poolNumber.getAndIncrement() + "-thread-";
 
     }
 

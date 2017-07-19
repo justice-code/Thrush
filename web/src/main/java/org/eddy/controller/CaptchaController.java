@@ -5,6 +5,7 @@ import org.eddy.solve.CaptchaNotify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class CaptchaController {
     @Autowired
     private LoginPipeline loginPipeline;
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
     public ResponseEntity<Void> loginCaptcha(CaptchaNotify captchaResult) {
         Objects.requireNonNull(captchaResult);
         loginPipeline.putNotify(captchaResult);

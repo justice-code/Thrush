@@ -30,7 +30,9 @@ public class TaskService implements ApplicationContextAware{
 
     public String submit() {
         String notifyGroup = genNotifyGroup();
-        pool.submit(applicationContext.getBean(NotifyRunnable.class));
+        NotifyRunnable runnable = applicationContext.getBean(NotifyRunnable.class);
+        runnable.setPipelineGroup(notifyGroup);
+        pool.submit(runnable);
         return notifyGroup;
     }
 

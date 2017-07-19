@@ -1,6 +1,6 @@
 package org.eddy.cookie;
 
-import org.eddy.CaptchaController;
+import org.eddy.controller.CaptchaController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

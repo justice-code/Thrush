@@ -1,9 +1,6 @@
 package org.eddy.pipeline;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.eddy.captcha.CaptchaUtil;
 import org.eddy.http.HttpRequest;
@@ -22,7 +19,7 @@ import java.util.Objects;
 /**
  * Created by Justice-love on 2017/7/17.
  */
-@Getter @Setter @RequiredArgsConstructor
+@Getter @Setter @NoArgsConstructor
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class NotifyRunnable implements Runnable {
@@ -31,7 +28,6 @@ public class NotifyRunnable implements Runnable {
     // 3分钟
     private static final int DEFAULT_TIME = 3;
 
-    @NonNull
     private String pipelineGroup;
 
     @Autowired

@@ -1,4 +1,4 @@
-package org.eddy;
+package org.eddy.controller;
 
 import org.eddy.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.eddy;
+package org.eddy.controller;
 
 import org.eddy.pipeline.LoginPipeline;
 import org.eddy.solve.CaptchaNotify;

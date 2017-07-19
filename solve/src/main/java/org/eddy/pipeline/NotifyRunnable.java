@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.eddy.captcha.CaptchaUtil;
+import org.eddy.http.HttpRequest;
 import org.eddy.solve.CaptchaNotify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -33,13 +37,28 @@ public class NotifyRunnable implements Runnable {
     @Autowired
     private LoginPipeline loginPipeline;
 
+    @Autowired
+    private HttpRequest httpRequest;
+
+    @Autowired
+    private CaptchaUtil captchaUtil;
+
     @Override
     public void run() {
+        httpRequest.init();
+        httpRequest.auth();
+        String url = captchaUtil.saveImage(imageFileName(), httpRequest.loginCaptchaImage());
         CaptchaNotify loginNotify = findLoginNotify();
+        httpRequest.checkRandCode(StringUtils.join(loginNotify.getNumbers(), ","));
 
     }
 
     //***************************************************** private *******************************************************
+
+    private String imageFileName() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().withNano(0).format(DateTimeFormatter.ISO_LOCAL_TIME) + ".jpg";
+    }
 
     private CaptchaNotify findLoginNotify() {
         CaptchaNotify notify = loginPipeline.pollNotify(DEFAULT_TIME);

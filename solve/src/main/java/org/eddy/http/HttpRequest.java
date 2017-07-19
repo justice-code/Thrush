@@ -104,6 +104,7 @@ public class HttpRequest {
 
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
+            logger.debug(EntityUtils.toString(response.getEntity()));
         } catch (IOException e) {
             logger.error("checkRandCode error", e);
         }

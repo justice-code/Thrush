@@ -46,6 +46,7 @@ public class NotifyRunnable implements Runnable {
         String url = captchaUtil.saveImage(imageFileName(), httpRequest.loginCaptchaImage());
         CaptchaNotify loginNotify = findLoginNotify();
         httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(loginNotify.getNumbers()));
+        httpRequest.login(CoordinateUtil.computeCoordinate(loginNotify.getNumbers()));
 
     }
 

@@ -1,6 +1,7 @@
 package org.eddy.http;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Consts;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -98,7 +99,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(urlConfig.getCheckCode());
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        httpPost.setEntity(new StringEntity("answer=" + encode(randCode) + "&login_site=E&&rand=sjrand", ContentType.APPLICATION_FORM_URLENCODED));
+        httpPost.setEntity(new StringEntity("answer=" + encode(randCode) + "&login_site=E&&rand=sjrand", ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);

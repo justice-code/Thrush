@@ -3,6 +3,7 @@ package org.eddy.cookie;
 import org.apache.commons.io.FileUtils;
 import org.eddy.ApplicationStart;
 import org.eddy.http.HttpRequest;
+import org.eddy.pipeline.CoordinateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class LoginTest {
         httpRequest.auth();
         byte[] bytes = httpRequest.loginCaptchaImage();
         httpRequest.checkRandCode("1,3");
+    }
+
+    @Test
+    public void test4() {
+        httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
     }
 
 }

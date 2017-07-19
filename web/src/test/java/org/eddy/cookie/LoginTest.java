@@ -42,7 +42,7 @@ public class LoginTest {
         httpRequest.init();
         httpRequest.auth();
         byte[] bytes = httpRequest.loginCaptchaImage();
-        httpRequest.checkRandCode("1,3");
+        httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
     }
 
     @Test

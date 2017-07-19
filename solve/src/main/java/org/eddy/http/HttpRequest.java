@@ -86,6 +86,7 @@ public class HttpRequest {
 
         byte[] result = new byte[0];
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            CookieManager.touch(response);
             result = EntityUtils.toByteArray(response.getEntity());
         } catch (IOException e) {
             logger.error("loginCaptchaImage error", e);

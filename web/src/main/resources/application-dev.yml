@@ -8,3 +8,6 @@ thrush:
   user:
     username: username
     password: password
+  image:
+    imageLocation: /Users/eddy/Desktop
+    url: /Users/eddy/Desktop

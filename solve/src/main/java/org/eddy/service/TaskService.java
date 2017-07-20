@@ -5,12 +5,6 @@ import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
 import org.eddy.solve.NotifyThreadFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -53,6 +47,6 @@ public class TaskService {
 
     private String imageFileName() {
         LocalDateTime dateTime = LocalDateTime.now();
-        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().withNano(0).format(DateTimeFormatter.ISO_LOCAL_TIME) + ".jpg";
+        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH-mm-ss-SSS")) + ".jpg";
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("thrush.user")
 public class UserConfig {
 
-    private String username;
+    public static String username;
 
-    private String password;
+    public static String password;
 }

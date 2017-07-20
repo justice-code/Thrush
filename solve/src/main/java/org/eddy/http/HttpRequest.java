@@ -38,7 +38,6 @@ import java.util.Objects;
 /**
  * Created by Justice-love on 2017/7/5.
  */
-@Component
 public class HttpRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRequest.class);
@@ -47,15 +46,9 @@ public class HttpRequest {
 
     private static PoolingHttpClientConnectionManager pools;
 
-    @Autowired
-    private UrlConfig urlConfig;
-
-    @Autowired
-    private UserConfig userConfig;
-
-    public void init() {
+    public static void init() {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(urlConfig.getInitUrl());
+        HttpGet httpGet = new HttpGet(UrlConfig.initUrl);
 
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             CookieManager.touch(response);
@@ -64,9 +57,9 @@ public class HttpRequest {
         }
     }
 
-    public void auth() {
+    public static void auth() {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpPost httpPost = new HttpPost(urlConfig.getAuth());
+        HttpPost httpPost = new HttpPost(UrlConfig.auth);
 
         httpPost.addHeader(CookieManager.cookieHeader());
         httpPost.setEntity(new StringEntity("appid=otn", ContentType.APPLICATION_JSON));
@@ -80,7 +73,7 @@ public class HttpRequest {
 
     public byte[] loginCaptchaImage() {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(urlConfig.getLoginCaptcha());
+        HttpGet httpGet = new HttpGet(UrlConfig.loginCaptcha);
 
         httpGet.addHeader(CookieManager.cookieHeader());
 
@@ -97,7 +90,7 @@ public class HttpRequest {
 
     public byte[] refreshLoginCaptchaImage() {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(urlConfig.getRefreshLoginCaptcha());
+        HttpGet httpGet = new HttpGet(UrlConfig.refreshLoginCaptcha);
 
         httpGet.addHeader(CookieManager.cookieHeader());
 
@@ -112,9 +105,9 @@ public class HttpRequest {
         return result;
     }
 
-    public void checkRandCode(String randCode) {
+    public static void checkRandCode(String randCode) {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpPost httpPost = new HttpPost(urlConfig.getCheckCode());
+        HttpPost httpPost = new HttpPost(UrlConfig.checkCode);
 
         httpPost.addHeader(CookieManager.cookieHeader());
         httpPost.setEntity(new StringEntity("answer=" + encode(randCode) + "&login_site=E&&rand=sjrand", ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
@@ -127,12 +120,12 @@ public class HttpRequest {
         }
     }
 
-    public void login(String randCode) {
+    public static void login(String randCode) {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpPost httpPost = new HttpPost(urlConfig.getLoginUrl());
+        HttpPost httpPost = new HttpPost(UrlConfig.loginUrl);
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        String param = "username=" + encode(userConfig.getUsername()) + "&password=" + encode(userConfig.getPassword()) + "&appid=otn";
+        String param = "username=" + encode(UserConfig.username) + "&password=" + encode(UserConfig.password) + "&appid=otn";
         httpPost.setEntity(new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED));
 
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
@@ -146,7 +139,7 @@ public class HttpRequest {
 
 
     //******************************** 私有方法 ****************************************
-    private String encode(String param) {
+    private static String encode(String param) {
         Objects.requireNonNull(param);
         String result = StringUtils.EMPTY;
 
@@ -159,11 +152,11 @@ public class HttpRequest {
         return result;
     }
 
-    private CloseableHttpClient buildHttpClient() {
+    private static CloseableHttpClient buildHttpClient() {
         return HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
     }
 
-    private SSLContext createContext() {
+    private static SSLContext createContext() {
         try {
             SSLContext context = SSLContext.getInstance("SSL");
             X509TrustManager tm = new X509TrustManager() {
@@ -191,7 +184,7 @@ public class HttpRequest {
 
 
     //******************************** 代码块 ****************************************
-    {
+    static {
         if (pools == null) {
             SSLConnectionSocketFactory mineSsl = new SSLConnectionSocketFactory(createContext(), NoopHostnameVerifier.INSTANCE);
             Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()

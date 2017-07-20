@@ -12,18 +12,14 @@ import java.util.Objects;
 /**
  * Created by Justice-love on 2017/7/17.
  */
-@Component
 public class CaptchaUtil {
 
-    @Autowired
-    private ImageConfig imageConfig;
-
-    public String saveImage(String fileName, byte[] bytes) {
+    public static String saveImage(String fileName, byte[] bytes) {
         Objects.requireNonNull(bytes);
 
         try {
-            FileUtils.writeByteArrayToFile(new File(imageConfig.getImageLocation() + "/" + fileName), bytes);
-            return imageConfig.getUrl() + "/" + fileName;
+            FileUtils.writeByteArrayToFile(new File(ImageConfig.imageLocation + "/" + fileName), bytes);
+            return ImageConfig.url + "/" + fileName;
         } catch (IOException e) {
             throw new RuntimeException("saveImage error", e);
         }

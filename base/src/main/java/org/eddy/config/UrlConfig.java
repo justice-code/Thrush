@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UrlConfig {
 
-    private String initUrl;
+    public static String initUrl;
 
-    private String loginCaptcha;
+    public static String loginCaptcha;
 
-    private String refreshLoginCaptcha;
+    public static String refreshLoginCaptcha;
 
-    private String auth;
+    public static String auth;
 
-    private String checkCode;
+    public static String checkCode;
 
-    private String loginUrl;
+    public static String loginUrl;
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageConfig {
 
-    private String imageLocation;
+    public static String imageLocation;
 
-    private String url;
+    public static String url;
 }

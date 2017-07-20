@@ -1,10 +1,11 @@
 package org.eddy.pipeline;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.eddy.captcha.CaptchaUtil;
 import org.eddy.http.HttpRequest;
-import org.eddy.solve.CaptchaNotify;
+import org.eddy.pipeline.command.CommandNotify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +32,18 @@ public class NotifyRunnable implements Runnable {
     private String pipelineGroup;
 
     @Autowired
-    private LoginPipeline loginPipeline;
+    private Pipeline pipeline;
 
     @Autowired
     private HttpRequest httpRequest;
 
-    @Autowired
-    private CaptchaUtil captchaUtil;
-
     @Override
     public void run() {
-        httpRequest.init();
-        httpRequest.auth();
-        String url = captchaUtil.saveImage(imageFileName(), httpRequest.loginCaptchaImage());
-        CaptchaNotify loginNotify = findLoginNotify();
-        httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(loginNotify.getNumbers()));
-        httpRequest.login(CoordinateUtil.computeCoordinate(loginNotify.getNumbers()));
+        CommandNotify init = findLoginNotify();
+        init.getCommand().execute(httpRequest, init.getArg());
+        
+        CommandNotify loginNotify = findLoginNotify();
+        loginNotify.getCommand().execute(httpRequest, loginNotify.getArg());
 
     }
 
@@ -57,8 +54,8 @@ public class NotifyRunnable implements Runnable {
         return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().withNano(0).format(DateTimeFormatter.ISO_LOCAL_TIME) + ".jpg";
     }
 
-    private CaptchaNotify findLoginNotify() {
-        CaptchaNotify notify = loginPipeline.pollNotify(DEFAULT_TIME);
+    private CommandNotify findLoginNotify() {
+        CommandNotify notify = pipeline.pollNotify(DEFAULT_TIME);
         Objects.requireNonNull(notify);
 
         if (StringUtils.equals(notify.getPipeline(), this.getPipelineGroup())) {
@@ -66,7 +63,7 @@ public class NotifyRunnable implements Runnable {
         }
 
         try {
-            loginPipeline.putNotify(notify);
+            pipeline.putNotify(notify);
             Thread.sleep(300);
             return findLoginNotify();
         } catch (InterruptedException e) {

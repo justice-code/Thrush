@@ -1,4 +1,4 @@
-package org.eddy.solve;
+package org.eddy.pipeline.command;
 
 import lombok.*;
 
@@ -6,9 +6,11 @@ import lombok.*;
  * Created by Justice-love on 2017/7/16.
  */
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
-public class CaptchaNotify {
+public class CommandNotify {
+
+    private Command command;
 
     private String pipeline;
 
-    private Integer[] numbers;
+    private Object arg;
 }

@@ -1,8 +1,9 @@
 package org.eddy.pipeline;
 
-import org.eddy.solve.CaptchaNotify;
+import org.eddy.pipeline.command.CommandNotify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -12,13 +13,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Justice-love on 2017/7/16.
  */
+@Component
 public class Pipeline {
 
     private static final Logger logger = LoggerFactory.getLogger(Pipeline.class);
 
-    private BlockingQueue<CaptchaNotify> queue = new LinkedBlockingQueue<>(3_000);
+    private BlockingQueue<CommandNotify> queue = new LinkedBlockingQueue<>(3_000);
 
-    public void putNotify(CaptchaNotify notify) {
+    public void putNotify(CommandNotify notify) {
         Objects.requireNonNull(notify);
         try {
             queue.put(notify);
@@ -27,7 +29,7 @@ public class Pipeline {
         }
     }
 
-    public CaptchaNotify pollNotify(int time) {
+    public CommandNotify pollNotify(int time) {
         try {
             return queue.poll(time, TimeUnit.MINUTES);
         } catch (InterruptedException e) {

@@ -25,17 +25,16 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by Justice-love on 2017/7/18.
  */
 @Service
-public class TaskService implements ApplicationContextAware{
+public class TaskService {
 
     private static final ExecutorService pool = new ThreadPoolExecutor(20, 100, 3L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(3_000), new NotifyThreadFactory());
 
     private AtomicLong aLong = new AtomicLong(1);
 
-    private ApplicationContext applicationContext;
-
     public String submit() {
         String notifyGroup = genNotifyGroup();
-        NotifyRunnable runnable = applicationContext.getBean(NotifyRunnable.class);
+
+        NotifyRunnable runnable = new NotifyRunnable();
         runnable.setPipelineGroup(notifyGroup);
         pool.submit(runnable);
 
@@ -44,16 +43,12 @@ public class TaskService implements ApplicationContextAware{
         notify.setArg(imageFileName());
         notify.setCommand(Command.INIT);
         Pipeline.putNotify(notify);
+
         return notifyGroup;
     }
 
     private String genNotifyGroup() {
         return "task-" + aLong.getAndIncrement();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 
     private String imageFileName() {

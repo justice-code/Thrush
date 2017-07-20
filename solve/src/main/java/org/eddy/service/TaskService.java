@@ -26,22 +26,22 @@ public class TaskService {
     private AtomicLong aLong = new AtomicLong(1);
 
     public String submit() {
-        String notifyGroup = genNotifyGroup();
+        String pipeline = genPipeline();
 
         NotifyRunnable runnable = new NotifyRunnable();
-        runnable.setPipelineGroup(notifyGroup);
+        runnable.setPipelineGroup(pipeline);
         pool.submit(runnable);
 
         CommandNotify notify = new CommandNotify();
-        notify.setPipeline(notifyGroup);
+        notify.setPipeline(pipeline);
         notify.setArg(imageFileName());
         notify.setCommand(Command.INIT);
         Pipeline.putNotify(notify);
 
-        return notifyGroup;
+        return pipeline;
     }
 
-    private String genNotifyGroup() {
+    private String genPipeline() {
         return "task-" + aLong.getAndIncrement();
     }
 

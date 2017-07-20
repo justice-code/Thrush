@@ -11,34 +11,34 @@ public enum Command {
 
     INIT {
         @Override
-        public Object execute(HttpRequest httpRequest, Object param) {
-            httpRequest.init();
-            httpRequest.auth();
-            return CaptchaUtil.saveImage((String) param, httpRequest.loginCaptchaImage());
+        public Object execute(Object param) {
+            HttpRequest.init();
+            HttpRequest.auth();
+            return CaptchaUtil.saveImage((String) param, HttpRequest.loginCaptchaImage());
         }
     },
     LOGIN {
         @Override
-        public Object execute(HttpRequest httpRequest, Object param) {
-            httpRequest.checkRandCode(CoordinateUtil.computeCoordinate((Integer[]) param));
-            httpRequest.login(CoordinateUtil.computeCoordinate((Integer[]) param));
+        public Object execute(Object param) {
+            HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate((Integer[]) param));
+            HttpRequest.login(CoordinateUtil.computeCoordinate((Integer[]) param));
             return null;
         }
     },
     REFRESH_LOGIN_CAPTCHA {
         @Override
-        public Object execute(HttpRequest httpRequest, Object param) {
-            return CaptchaUtil.saveImage((String) param, httpRequest.refreshLoginCaptchaImage());
+        public Object execute(Object param) {
+            return CaptchaUtil.saveImage((String) param, HttpRequest.refreshLoginCaptchaImage());
         }
     },
     STOP {
         @Override
-        public Object execute(HttpRequest httpRequest, Object param) {
-            return super.execute(httpRequest, param);
+        public Object execute(Object param) {
+            return super.execute(param);
         }
     };
 
-    public Object execute(HttpRequest httpRequest, Object param) {
+    public Object execute(Object param) {
         throw new RuntimeException("unsupported");
     }
 }

@@ -71,7 +71,7 @@ public class HttpRequest {
         }
     }
 
-    public byte[] loginCaptchaImage() {
+    public static byte[] loginCaptchaImage() {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(UrlConfig.loginCaptcha);
 
@@ -88,7 +88,7 @@ public class HttpRequest {
         return result;
     }
 
-    public byte[] refreshLoginCaptchaImage() {
+    public static byte[] refreshLoginCaptchaImage() {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpGet httpGet = new HttpGet(UrlConfig.refreshLoginCaptcha);
 

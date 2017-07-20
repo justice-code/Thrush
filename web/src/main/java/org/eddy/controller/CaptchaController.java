@@ -1,6 +1,7 @@
 package org.eddy.controller;
 
 import org.eddy.pipeline.Pipeline;
+import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class CaptchaController {
         CommandNotify notify = new CommandNotify();
         notify.setPipeline(pipeline);
         notify.setArg(numbers);
+        notify.setCommand(Command.LOGIN);
 
         pipelineNotify.putNotify(notify);
         return ResponseEntity.ok().build();

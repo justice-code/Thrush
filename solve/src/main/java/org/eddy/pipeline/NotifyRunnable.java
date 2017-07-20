@@ -41,18 +41,13 @@ public class NotifyRunnable implements Runnable {
     public void run() {
         CommandNotify init = findLoginNotify();
         init.getCommand().execute(httpRequest, init.getArg());
-        
+
         CommandNotify loginNotify = findLoginNotify();
         loginNotify.getCommand().execute(httpRequest, loginNotify.getArg());
 
     }
 
     //***************************************************** private *******************************************************
-
-    private String imageFileName() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().withNano(0).format(DateTimeFormatter.ISO_LOCAL_TIME) + ".jpg";
-    }
 
     private CommandNotify findLoginNotify() {
         CommandNotify notify = pipeline.pollNotify(DEFAULT_TIME);

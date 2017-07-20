@@ -34,6 +34,7 @@ public class CookieManager {
         }).collect(Collectors.toSet());
 
         Set<ThrushCookie> result = Optional.ofNullable(cookieManager.get()).orElse(new HashSet<>());
+        result.removeAll(cookies);
         result.addAll(cookies);
 
         cookieManager.set(result.stream().filter(cookie -> null != cookie && null != cookie.getValue()).collect(Collectors.toSet()));

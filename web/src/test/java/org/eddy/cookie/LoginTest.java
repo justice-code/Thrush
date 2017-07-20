@@ -47,4 +47,10 @@ public class LoginTest {
         HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
     }
 
+    @Test
+    public void test5() {
+        HttpRequest.refreshLoginCaptchaImage();
+        HttpRequest.refreshLoginCaptchaImage();
+    }
+
 }

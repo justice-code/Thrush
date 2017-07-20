@@ -20,34 +20,31 @@ import java.io.IOException;
 @SpringBootTest(classes = {ApplicationStart.class})
 public class LoginTest {
 
-    @Autowired
-    private HttpRequest httpRequest;
-
     @Test
     public void test1() throws IOException {
-        httpRequest.init();
-        httpRequest.auth();
-        byte[] bytes = httpRequest.loginCaptchaImage();
+        HttpRequest.init();
+        HttpRequest.auth();
+        byte[] bytes = HttpRequest.loginCaptchaImage();
         FileUtils.writeByteArrayToFile(new File("/Users/eddy/Desktop/image.jpg"), bytes);
     }
 
     @Test
     public void test2() throws IOException {
-        byte[] bytes = httpRequest.loginCaptchaImage();
+        byte[] bytes = HttpRequest.loginCaptchaImage();
         FileUtils.writeByteArrayToFile(new File("/Users/eddy/Desktop/image.jpg"), bytes);
     }
 
     @Test
     public void test3() {
-        httpRequest.init();
-        httpRequest.auth();
-        byte[] bytes = httpRequest.loginCaptchaImage();
-        httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
+        HttpRequest.init();
+        HttpRequest.auth();
+        byte[] bytes = HttpRequest.loginCaptchaImage();
+        HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
     }
 
     @Test
     public void test4() {
-        httpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
+        HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate(new Integer[]{1,3}));
     }
 
 }

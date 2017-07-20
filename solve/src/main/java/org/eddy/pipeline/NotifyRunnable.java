@@ -34,16 +34,13 @@ public class NotifyRunnable implements Runnable {
     @Autowired
     private Pipeline pipeline;
 
-    @Autowired
-    private HttpRequest httpRequest;
-
     @Override
     public void run() {
         CommandNotify init = findLoginNotify();
-        init.getCommand().execute(httpRequest, init.getArg());
+        init.getCommand().execute(init.getArg());
 
         CommandNotify loginNotify = findLoginNotify();
-        loginNotify.getCommand().execute(httpRequest, loginNotify.getArg());
+        loginNotify.getCommand().execute(loginNotify.getArg());
 
     }
 

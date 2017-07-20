@@ -16,4 +16,12 @@ public class UserConfig {
     public static String username;
 
     public static String password;
+
+    public void setUsername(String username) {
+        UserConfig.username = username;
+    }
+
+    public void setPassword(String password) {
+        UserConfig.password = password;
+    }
 }

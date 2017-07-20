@@ -17,4 +17,12 @@ public class ImageConfig {
     public static String imageLocation;
 
     public static String url;
+
+    public void setImageLocation(String imageLocation) {
+        ImageConfig.imageLocation = imageLocation;
+    }
+
+    public void setUrl(String url) {
+        ImageConfig.url = url;
+    }
 }

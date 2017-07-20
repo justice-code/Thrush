@@ -24,4 +24,28 @@ public class UrlConfig {
     public static String checkCode;
 
     public static String loginUrl;
+
+    public void setInitUrl(String initUrl) {
+        UrlConfig.initUrl = initUrl;
+    }
+
+    public void setLoginCaptcha(String loginCaptcha) {
+        UrlConfig.loginCaptcha = loginCaptcha;
+    }
+
+    public void setRefreshLoginCaptcha(String refreshLoginCaptcha) {
+        UrlConfig.refreshLoginCaptcha = refreshLoginCaptcha;
+    }
+
+    public void setAuth(String auth) {
+        UrlConfig.auth = auth;
+    }
+
+    public void setCheckCode(String checkCode) {
+        UrlConfig.checkCode = checkCode;
+    }
+
+    public void setLoginUrl(String loginUrl) {
+        UrlConfig.loginUrl = loginUrl;
+    }
 }

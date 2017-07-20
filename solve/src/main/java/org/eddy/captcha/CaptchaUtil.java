@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -23,5 +25,10 @@ public class CaptchaUtil {
         } catch (IOException e) {
             throw new RuntimeException("saveImage error", e);
         }
+    }
+
+    public static String imageFileName() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH-mm-ss-SSS")) + ".jpg";
     }
 }

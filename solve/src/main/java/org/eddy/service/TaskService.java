@@ -1,5 +1,6 @@
 package org.eddy.service;
 
+import org.eddy.captcha.CaptchaUtil;
 import org.eddy.pipeline.NotifyRunnable;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
@@ -34,7 +35,7 @@ public class TaskService {
 
         CommandNotify notify = new CommandNotify();
         notify.setPipeline(pipeline);
-        notify.setArg(imageFileName());
+        notify.setArg(CaptchaUtil.imageFileName());
         notify.setCommand(Command.INIT);
         Pipeline.putNotify(notify);
 
@@ -45,8 +46,4 @@ public class TaskService {
         return "task-" + aLong.getAndIncrement();
     }
 
-    private String imageFileName() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        return dateTime.toLocalDate().toString() + "/" + dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH-mm-ss-SSS")) + ".jpg";
-    }
 }

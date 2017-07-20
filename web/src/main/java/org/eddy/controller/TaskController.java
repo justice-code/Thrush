@@ -1,5 +1,6 @@
 package org.eddy.controller;
 
+import org.eddy.captcha.CaptchaUtil;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
@@ -48,6 +49,7 @@ public class TaskController {
 
         CommandNotify notify = new CommandNotify();
         notify.setPipeline(pipeline);
+        notify.setArg(CaptchaUtil.imageFileName());
         notify.setCommand(Command.REFRESH_LOGIN_CAPTCHA);
 
         Pipeline.putNotify(notify);

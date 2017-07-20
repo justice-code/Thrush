@@ -95,6 +95,23 @@ public class HttpRequest {
         return result;
     }
 
+    public byte[] refreshLoginCaptchaImage() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpGet httpGet = new HttpGet(urlConfig.getRefreshLoginCaptcha());
+
+        httpGet.addHeader(CookieManager.cookieHeader());
+
+        byte[] result = new byte[0];
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toByteArray(response.getEntity());
+        } catch (IOException e) {
+            logger.error("refreshLoginCaptchaImage error", e);
+        }
+
+        return result;
+    }
+
     public void checkRandCode(String randCode) {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(urlConfig.getCheckCode());

@@ -17,6 +17,8 @@ public class UrlConfig {
 
     private String loginCaptcha;
 
+    private String refreshLoginCaptcha;
+
     private String auth;
 
     private String checkCode;

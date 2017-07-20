@@ -36,15 +36,16 @@ public class NotifyRunnable implements Runnable {
 
     @Override
     public void run() {
-        CommandNotify init = findLoginNotify();
-        init.getCommand().execute(init.getArg());
-
-        CommandNotify loginNotify = findLoginNotify();
-        loginNotify.getCommand().execute(loginNotify.getArg());
-
+        execute();
     }
 
     //***************************************************** private *******************************************************
+
+    private void execute() {
+        CommandNotify commandNotify = findLoginNotify();
+        commandNotify.getCommand().execute(commandNotify.getArg());
+        execute();
+    }
 
     private CommandNotify findLoginNotify() {
         CommandNotify notify = pipeline.pollNotify(DEFAULT_TIME);

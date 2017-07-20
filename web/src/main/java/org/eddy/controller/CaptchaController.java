@@ -18,9 +18,6 @@ import java.util.Objects;
 @RequestMapping("/captcha")
 public class CaptchaController {
 
-    @Autowired
-    private Pipeline pipelineNotify;
-
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public ResponseEntity<Void> loginCaptcha(String pipeline, Integer[] numbers) {
         Objects.requireNonNull(pipeline);
@@ -31,7 +28,7 @@ public class CaptchaController {
         notify.setArg(numbers);
         notify.setCommand(Command.LOGIN);
 
-        pipelineNotify.putNotify(notify);
+        Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();
     }
 }

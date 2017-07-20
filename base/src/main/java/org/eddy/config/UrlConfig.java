@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Justice-love on 2017/7/5.
  */
-@Getter @Setter
 @ConfigurationProperties("thrush.url")
 @Component
 public class UrlConfig {

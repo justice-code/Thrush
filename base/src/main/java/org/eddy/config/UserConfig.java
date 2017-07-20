@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Justice-love on 2017/7/15.
  */
-@Getter @Setter
 @Component
 @ConfigurationProperties("thrush.user")
 public class UserConfig {

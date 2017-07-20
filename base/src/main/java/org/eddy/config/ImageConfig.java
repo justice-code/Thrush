@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Justice-love on 2017/7/17.
  */
-@Getter
-@Setter
 @ConfigurationProperties("thrush.image")
 @Component
 public class ImageConfig {

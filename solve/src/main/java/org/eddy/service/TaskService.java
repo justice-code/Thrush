@@ -33,9 +33,6 @@ public class TaskService implements ApplicationContextAware{
 
     private ApplicationContext applicationContext;
 
-    @Autowired
-    private Pipeline pipelineNotify;
-
     public String submit() {
         String notifyGroup = genNotifyGroup();
         NotifyRunnable runnable = applicationContext.getBean(NotifyRunnable.class);
@@ -46,7 +43,7 @@ public class TaskService implements ApplicationContextAware{
         notify.setPipeline(notifyGroup);
         notify.setArg(imageFileName());
         notify.setCommand(Command.INIT);
-        pipelineNotify.putNotify(notify);
+        Pipeline.putNotify(notify);
         return notifyGroup;
     }
 

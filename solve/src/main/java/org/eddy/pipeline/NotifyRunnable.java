@@ -21,8 +21,6 @@ import java.util.Objects;
  * Created by Justice-love on 2017/7/17.
  */
 @Getter @Setter @NoArgsConstructor
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class NotifyRunnable implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(NotifyRunnable.class);
@@ -30,9 +28,6 @@ public class NotifyRunnable implements Runnable {
     private static final int DEFAULT_TIME = 3;
 
     private String pipelineGroup;
-
-    @Autowired
-    private Pipeline pipeline;
 
     @Override
     public void run() {
@@ -48,7 +43,7 @@ public class NotifyRunnable implements Runnable {
     }
 
     private CommandNotify findLoginNotify() {
-        CommandNotify notify = pipeline.pollNotify(DEFAULT_TIME);
+        CommandNotify notify = Pipeline.pollNotify(DEFAULT_TIME);
         Objects.requireNonNull(notify);
 
         if (StringUtils.equals(notify.getPipeline(), this.getPipelineGroup())) {
@@ -56,7 +51,7 @@ public class NotifyRunnable implements Runnable {
         }
 
         try {
-            pipeline.putNotify(notify);
+            Pipeline.putNotify(notify);
             Thread.sleep(300);
             return findLoginNotify();
         } catch (InterruptedException e) {

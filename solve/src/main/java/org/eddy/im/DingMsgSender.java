@@ -8,7 +8,7 @@ public enum DingMsgSender {
     markdown {
         @Override
         public void sendMsg(String content) {
-            super.sendMsg(content);
+            ImHttpRequest.send(this, content);
         }
     };
 

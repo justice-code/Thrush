@@ -38,7 +38,7 @@ public class NotifyRunnable implements Runnable {
 
     private void execute() {
         CommandNotify commandNotify = findLoginNotify();
-        commandNotify.getCommand().execute(commandNotify.getArg());
+        commandNotify.getCommand().execute(this.getPipelineGroup(), commandNotify.getArg());
         execute();
     }
 

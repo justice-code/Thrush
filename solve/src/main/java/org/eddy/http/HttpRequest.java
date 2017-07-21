@@ -120,7 +120,7 @@ public class HttpRequest {
         }
     }
 
-    public static void login(String randCode) {
+    public static String login(String randCode) {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(UrlConfig.loginUrl);
 
@@ -128,12 +128,15 @@ public class HttpRequest {
         String param = "username=" + encode(UserConfig.username) + "&password=" + encode(UserConfig.password) + "&appid=otn";
         httpPost.setEntity(new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED));
 
+        String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             logger.error("login error", e);
         }
 
+        return result;
     }
 
 

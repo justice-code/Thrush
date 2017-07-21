@@ -17,7 +17,7 @@ public enum Command {
             HttpRequest.init();
             HttpRequest.auth();
             String url = CaptchaUtil.saveImage((String) param, HttpRequest.loginCaptchaImage());
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline));
         }
     },
     LOGIN {
@@ -32,7 +32,7 @@ public enum Command {
         @Override
         public void execute(String pipeline, Object param) {
             String url = CaptchaUtil.saveImage((String) param, HttpRequest.refreshLoginCaptchaImage());
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline));
         }
     },
     STOP {

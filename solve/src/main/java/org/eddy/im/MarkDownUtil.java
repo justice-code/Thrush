@@ -1,6 +1,7 @@
 package org.eddy.im;
 
 import com.alibaba.fastjson.JSONObject;
+import org.eddy.config.HostConfig;
 
 import java.util.Objects;
 
@@ -17,11 +18,12 @@ public class MarkDownUtil {
         return jsonObject.toJSONString();
     }
 
-    public static String createContent(String content, String url) {
+    public static String createContent(String content, String url, String pipeline) {
         Objects.requireNonNull(content);
 
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/refresh?pipeline=").append(pipeline).append(")\n");
         builder.append("![验证码](").append(url).append(")");
         jsonObject.put("text", builder.toString());
         return jsonObject.toJSONString();

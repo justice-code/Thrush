@@ -11,7 +11,9 @@ thrush:
     password: password
   image:
     imageLocation: /Users/eddy/Desktop/12306
-    url: http://10.2.114.95:8080
+    url: http://10.2.114.95:8081
   ding:
     url: https://oapi.dingtalk.com/robot/send?access_token=
     token: 9048bea05b7f10ac4fb28445397554d8232611e03cf7c872b9cdc7526a1522fe
+  host:
+    domain: http://10.2.114.95:8080

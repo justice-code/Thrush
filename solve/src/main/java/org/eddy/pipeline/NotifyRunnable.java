@@ -34,7 +34,7 @@ public class NotifyRunnable implements Runnable {
         try {
             execute();
         } catch (Exception e) {
-            logger.error("execute error", e);
+            logger.error("execute error, end ", e);
         }
     }
 

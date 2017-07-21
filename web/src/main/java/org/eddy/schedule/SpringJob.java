@@ -1,5 +1,6 @@
 package org.eddy.schedule;
 
+import org.eddy.config.DingConfig;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -15,6 +16,6 @@ public class SpringJob {
 
     @Scheduled(cron = "10 1 9 * * * ")
     public void begin() {
-        DingMsgSender.markdown.sendMsg(MarkDownUtil.begin());
+        DingMsgSender.markdown.sendMsg(MarkDownUtil.begin(), DingConfig.notifyToken);
     }
 }

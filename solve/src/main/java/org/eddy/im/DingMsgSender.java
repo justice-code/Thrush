@@ -7,12 +7,12 @@ public enum DingMsgSender {
 
     markdown {
         @Override
-        public void sendMsg(String content) {
-            ImHttpRequest.send(this, content);
+        public void sendMsg(String content, String token) {
+            ImHttpRequest.send(this, content, token);
         }
     };
 
-    public void sendMsg(String content) {
+    public void sendMsg(String content, String token) {
         throw new RuntimeException("not support");
     }
 }

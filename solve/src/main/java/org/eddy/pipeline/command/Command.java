@@ -1,6 +1,7 @@
 package org.eddy.pipeline.command;
 
 import org.eddy.captcha.CaptchaUtil;
+import org.eddy.config.DingConfig;
 import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
@@ -17,7 +18,7 @@ public enum Command {
             HttpRequest.init();
             HttpRequest.auth();
             String url = CaptchaUtil.saveImage((String) param, HttpRequest.loginCaptchaImage());
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline), DingConfig.token);
         }
     },
     LOGIN {
@@ -25,14 +26,14 @@ public enum Command {
         public void execute(String pipeline, Object param) {
             HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate((Integer[]) param));
             String result = HttpRequest.login(CoordinateUtil.computeCoordinate((Integer[]) param));
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result, pipeline));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result, pipeline), DingConfig.token);
         }
     },
     REFRESH_LOGIN_CAPTCHA {
         @Override
         public void execute(String pipeline, Object param) {
             String url = CaptchaUtil.saveImage((String) param, HttpRequest.refreshLoginCaptchaImage());
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline), DingConfig.token);
         }
     },
     STOP {

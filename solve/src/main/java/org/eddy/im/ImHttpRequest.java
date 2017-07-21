@@ -24,9 +24,9 @@ public class ImHttpRequest {
 
     private static PoolingHttpClientConnectionManager pools;
 
-    public static boolean send(DingMsgSender sender, String content) {
+    public static boolean send(DingMsgSender sender, String content, String token) {
         CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(pools).build();
-        HttpPost post = new HttpPost(DingConfig.url + DingConfig.token);
+        HttpPost post = new HttpPost(DingConfig.url + token);
         post.setHeader("Content-Type", "application/json");
         post.setEntity(new StringEntity(buildJsonMessage(sender, content), "UTF-8"));
         try(CloseableHttpResponse httpResponse = httpClient.execute(post)) {

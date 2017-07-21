@@ -14,6 +14,8 @@ public class DingConfig {
 
     public static String token;
 
+    public static String notifyToken;
+
     public void setUrl(String url) {
         DingConfig.url = url;
     }

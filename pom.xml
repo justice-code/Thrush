@@ -60,6 +60,11 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.4</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.24</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

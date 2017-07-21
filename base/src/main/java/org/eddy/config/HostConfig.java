@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Justice-love on 2017/7/21.
  */
-@ConfigurationProperties("thrush.ding")
+@ConfigurationProperties("thrush.host")
 @Component
 public class HostConfig {
 

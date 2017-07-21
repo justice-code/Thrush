@@ -25,13 +25,17 @@ public class NotifyRunnable implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(NotifyRunnable.class);
     // 3分钟
-    private static final int DEFAULT_TIME = 3;
+    private static final int DEFAULT_TIME = 10;
 
     private String pipelineGroup;
 
     @Override
     public void run() {
-        execute();
+        try {
+            execute();
+        } catch (Exception e) {
+            logger.error("execute error", e);
+        }
     }
 
     //***************************************************** private *******************************************************

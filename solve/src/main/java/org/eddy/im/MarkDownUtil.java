@@ -10,11 +10,13 @@ import java.util.Objects;
  */
 public class MarkDownUtil {
 
-    public static String createContent(String content) {
+    public static String createContent(String content, String pipeline) {
         Objects.requireNonNull(content);
 
         JSONObject jsonObject = template();
-        jsonObject.put("text", "* " + content);
+        StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/refresh?pipeline=").append(pipeline).append(")\n");
+        jsonObject.put("text", builder.toString());
         return jsonObject.toJSONString();
     }
 

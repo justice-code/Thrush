@@ -50,6 +50,6 @@ public class ResultManager {
         Set<ThrushResult> thrushResults = Optional.ofNullable(resultManager.get()).orElse(new HashSet<>());
 
         ThrushResult thrushResult = new ThrushResult(key, null);
-        return thrushResults.stream().filter(t -> Objects.equals(t, key)).findFirst().orElse(null);
+        return thrushResults.stream().filter(t -> Objects.equals(t, thrushResult)).findFirst().orElse(null);
     }
 }

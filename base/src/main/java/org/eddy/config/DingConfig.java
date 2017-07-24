@@ -23,4 +23,8 @@ public class DingConfig {
     public void setToken(String token) {
         DingConfig.token = token;
     }
+
+    public void setNotifyToken(String notifyToken) {
+        DingConfig.notifyToken = notifyToken;
+    }
 }

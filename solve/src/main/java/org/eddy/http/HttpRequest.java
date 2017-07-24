@@ -2,6 +2,7 @@ package org.eddy.http;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -130,9 +131,9 @@ public class HttpRequest {
 
         String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            CookieManager.touch(response);
-            ResultManager.touch(response, new ResultKey("uamtk", "uamtk"));
             result = EntityUtils.toString(response.getEntity());
+            CookieManager.touch(response);
+            ResultManager.touch(result, new ResultKey("uamtk", "uamtk"));
         } catch (IOException e) {
             logger.error("login error", e);
         }
@@ -149,9 +150,9 @@ public class HttpRequest {
 
         String result = StringUtils.EMPTY;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            CookieManager.touch(response);
-            ResultManager.touch(response, new ResultKey("tk", "newapptk"));
             result = EntityUtils.toString(response.getEntity());
+            CookieManager.touch(response);
+            ResultManager.touch(result, new ResultKey("tk", "newapptk"));
         } catch (IOException e) {
             logger.error("uamtk error", e);
         }

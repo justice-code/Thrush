@@ -1,8 +1,6 @@
 package org.eddy.manager;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.ognl.Ognl;
 import org.apache.ibatis.ognl.OgnlException;
 import org.eddy.solve.ResultKey;
@@ -10,7 +8,6 @@ import org.eddy.solve.ThrushResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,13 +22,13 @@ public class ResultManager {
 
     private static ThreadLocal<Set<ThrushResult>> resultManager = new InheritableThreadLocal<>();
 
-    public static void touch(HttpResponse response, ResultKey resultKey) {
+    public static void touch(String result, ResultKey resultKey) {
         Objects.requireNonNull(resultKey);
-        Objects.requireNonNull(response);
+        Objects.requireNonNull(result);
 
         try {
 
-            JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(response.getEntity()));
+            JSONObject jsonObject = JSONObject.parseObject(result);
             String value = (String) Ognl.getValue(resultKey.getOgnl(), jsonObject);
             ThrushResult thrushResult = new ThrushResult(resultKey.getKey(), value);
 
@@ -42,9 +39,6 @@ public class ResultManager {
             }
             thrushResults.add(thrushResult);
 
-        } catch (IOException e) {
-            logger.error("ResultManager touch error", e);
-            throw new RuntimeException(e);
         } catch (OgnlException e) {
             logger.error("ResultManager ognl error", e);
             throw new RuntimeException(e);

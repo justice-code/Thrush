@@ -10,6 +10,15 @@ import java.util.Objects;
  */
 public class MarkDownUtil {
 
+    public static String createContent(String content) {
+        Objects.requireNonNull(content);
+
+        JSONObject jsonObject = template();
+        StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        jsonObject.put("text", builder.toString());
+        return jsonObject.toJSONString();
+    }
+
     public static String createContent(String content, String pipeline) {
         Objects.requireNonNull(content);
 

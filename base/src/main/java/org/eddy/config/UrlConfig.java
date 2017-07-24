@@ -24,6 +24,12 @@ public class UrlConfig {
 
     public static String loginUrl;
 
+    public static String uamtk;
+
+    public void setUamtk(String uamtk) {
+        UrlConfig.uamtk = uamtk;
+    }
+
     public void setInitUrl(String initUrl) {
         UrlConfig.initUrl = initUrl;
     }

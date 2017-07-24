@@ -27,6 +27,8 @@ public enum Command {
             HttpRequest.checkRandCode(CoordinateUtil.computeCoordinate((Integer[]) param));
             String result = HttpRequest.login(CoordinateUtil.computeCoordinate((Integer[]) param));
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result, pipeline), DingConfig.token);
+            String uamtkResult = HttpRequest.uamtk();
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(uamtkResult), DingConfig.token);
         }
     },
     REFRESH_LOGIN_CAPTCHA {

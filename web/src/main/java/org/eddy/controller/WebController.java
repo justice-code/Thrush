@@ -15,7 +15,7 @@ public class WebController {
 
     @RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
     public String captcha(@RequestParam("pipeline") String pipeline, Model model) {
-        model.addAttribute("pipeline", "pipeline");
+        model.addAttribute("pipeline", pipeline);
         return "login/captcha";
     }
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 	<title>请输入登录验证码</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<style>
 		form{
 			text-align: center;
@@ -19,7 +19,7 @@
 	<form method="post" action="/task/login">
 		<div class="form-group form-inline">
 			<label for="exampleInputEmail1">验证码序号：</label>
-			<input type="email" th:name="numbers" class="form-control" id="exampleInputEmail1" placeholder="Email">
+			<input type="text" th:name="numbers" class="form-control" id="exampleInputEmail1" placeholder="Numbers"/>
 		</div>
 		<input type="hidden" name="pipeline" th:value="${pipeline}"/>
 		<button type="submit" class="btn btn-primary">Submit</button>

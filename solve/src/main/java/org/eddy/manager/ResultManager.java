@@ -38,7 +38,7 @@ public class ResultManager {
                 thrushResults.remove(thrushResult);
             }
             thrushResults.add(thrushResult);
-
+            resultManager.set(thrushResults);
         } catch (OgnlException e) {
             logger.error("ResultManager ognl error", e);
             throw new RuntimeException(e);

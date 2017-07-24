@@ -29,7 +29,7 @@ public class TaskController {
         return ResponseEntity.ok(group);
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
     public ResponseEntity<Void> loginCaptcha(String pipeline, Integer[] numbers) {
         Objects.requireNonNull(pipeline);
         Objects.requireNonNull(numbers);

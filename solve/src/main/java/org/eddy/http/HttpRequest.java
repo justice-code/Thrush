@@ -127,7 +127,7 @@ public class HttpRequest {
 
         httpPost.addHeader(CookieManager.cookieHeader());
         String param = "username=" + encode(UserConfig.username) + "&password=" + encode(UserConfig.password) + "&appid=otn";
-        httpPost.setEntity(new StringEntity(param, ContentType.APPLICATION_FORM_URLENCODED));
+        httpPost.setEntity(new StringEntity(param, ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
@@ -146,7 +146,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(UrlConfig.uamtk);
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        httpPost.setEntity(new StringEntity("appid=otn", ContentType.APPLICATION_FORM_URLENCODED));
+        httpPost.setEntity(new StringEntity("appid=otn", ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
@@ -166,7 +166,7 @@ public class HttpRequest {
 
         httpPost.addHeader(CookieManager.cookieHeader());
         String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> r.getValue()).orElse(StringUtils.EMPTY);
-        httpPost.setEntity(new StringEntity("tk=" + param, ContentType.APPLICATION_FORM_URLENCODED));
+        httpPost.setEntity(new StringEntity("tk=" + param, ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {

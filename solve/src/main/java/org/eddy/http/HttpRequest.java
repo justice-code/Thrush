@@ -20,10 +20,10 @@ import org.apache.http.util.EntityUtils;
 import org.eddy.config.UrlConfig;
 import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
+import org.eddy.manager.ResultManager;
+import org.eddy.solve.ResultKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -131,6 +131,7 @@ public class HttpRequest {
         String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
+            ResultManager.touch(response, new ResultKey("uamtk", "uamtk"));
             result = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             logger.error("login error", e);
@@ -149,6 +150,7 @@ public class HttpRequest {
         String result = StringUtils.EMPTY;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
+            ResultManager.touch(response, new ResultKey("tk", "newapptk"));
             result = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             logger.error("uamtk error", e);

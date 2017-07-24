@@ -29,6 +29,8 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result, pipeline), DingConfig.token);
             String uamtkResult = HttpRequest.uamtk();
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(uamtkResult), DingConfig.token);
+            String authClientResult = HttpRequest.authClient();
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(authClientResult), DingConfig.token);
         }
     },
     REFRESH_LOGIN_CAPTCHA {

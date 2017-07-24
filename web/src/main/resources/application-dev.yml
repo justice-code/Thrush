@@ -10,6 +10,7 @@ thrush:
     checkCode: https://kyfw.12306.cn/passport/captcha/captcha-check
     loginUrl: https://kyfw.12306.cn/passport/web/login
     uamtk: https://kyfw.12306.cn/passport/web/auth/uamtk
+    authClient: https://kyfw.12306.cn/otn/uamauthclient
   user:
     username: username
     password: password

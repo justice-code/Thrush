@@ -26,6 +26,12 @@ public class UrlConfig {
 
     public static String uamtk;
 
+    public static String authClient;
+
+    public static void setAuthClient(String authClient) {
+        UrlConfig.authClient = authClient;
+    }
+
     public void setUamtk(String uamtk) {
         UrlConfig.uamtk = uamtk;
     }

@@ -2,7 +2,6 @@ package org.eddy.http;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -35,6 +34,7 @@ import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -155,6 +155,25 @@ public class HttpRequest {
             ResultManager.touch(result, new ResultKey("tk", "newapptk"));
         } catch (IOException e) {
             logger.error("uamtk error", e);
+        }
+
+        return result;
+    }
+
+    public static String authClient() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.authClient);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> r.getValue()).orElse(StringUtils.EMPTY);
+        httpPost.setEntity(new StringEntity("tk=" + param, ContentType.APPLICATION_FORM_URLENCODED));
+
+        String result = StringUtils.EMPTY;
+        try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            result = EntityUtils.toString(response.getEntity());
+            CookieManager.touch(response);
+        } catch (IOException e) {
+            logger.error("authClient error", e);
         }
 
         return result;

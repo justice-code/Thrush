@@ -1,3 +1,6 @@
+spring:
+  thymeleaf:
+    cache: false
 thrush:
   url:
     initUrl: https://kyfw.12306.cn/otn/login/init

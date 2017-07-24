@@ -1,3 +1,8 @@
 spring:
     profiles:
       active: dev
+    thymeleaf:
+      suffix: .html
+      content-type: text/html
+      mode: HTML5
+      encoding: UTF-8

@@ -16,6 +16,7 @@ public class MarkDownUtil {
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
         builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/refresh?pipeline=").append(pipeline).append(")\n");
+        builder.append("* [输入验证码](").append(HostConfig.domain).append("/web/loginCaptcha?pipeline=").append(pipeline).append(")\n");
         jsonObject.put("text", builder.toString());
         return jsonObject.toJSONString();
     }
@@ -26,6 +27,7 @@ public class MarkDownUtil {
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
         builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/refresh?pipeline=").append(pipeline).append(")\n");
+        builder.append("* [输入验证码](").append(HostConfig.domain).append("/web/loginCaptcha?pipeline=").append(pipeline).append(")\n");
         builder.append("![验证码](").append(url).append(")");
         jsonObject.put("text", builder.toString());
         return jsonObject.toJSONString();

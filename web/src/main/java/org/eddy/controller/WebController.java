@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/web")
 public class WebController {
 
-    @RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET.GET)
+    @RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)
     public String captcha(@RequestParam("pipeline") String pipeline, Model model) {
         model.addAttribute("pipeline", "pipeline");
         return "login/captcha";

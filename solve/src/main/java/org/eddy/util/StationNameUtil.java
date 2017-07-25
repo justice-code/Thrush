@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
  */
 public class StationNameUtil {
 
-    public static Map<String, List<Station>> parse(String js) {
+    private static Map<String, List<Station>> stationMaps = new HashMap<>();
+
+    public static void parse(String js) {
         if (StringUtils.isBlank(js)) {
-            return new HashMap<>();
+            return;
         }
 
         String str = StringUtils.substring(js, js.indexOf("'") + 1, js.lastIndexOf("'"));
@@ -25,7 +27,8 @@ public class StationNameUtil {
             String[] stations = s.split("\\|");
             return new Station(stations[0], stations[1], stations[2], stations[3]);
         }).collect(Collectors.groupingBy(station -> station.getSimpleCode()));
-        return result;
+
+        stationMaps = result;
     }
 
 }

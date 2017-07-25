@@ -1,8 +1,10 @@
 package org.eddy.listener;
 
 import org.eddy.config.DingConfig;
+import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
+import org.eddy.util.StationNameUtil;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 
@@ -18,5 +20,6 @@ public class ThrushApplicationListener implements ApplicationListener<Applicatio
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         DingMsgSender.markdown.sendMsg(MarkDownUtil.begin(), DingConfig.notifyToken);
+        StationNameUtil.parse(HttpRequest.stationName());
     }
 }

@@ -18,8 +18,16 @@
 <body>
 	<form method="post" action="/task/login">
 		<div class="form-group form-inline">
-			<label for="exampleInputEmail1">验证码序号：</label>
-			<input type="text" th:name="numbers" class="form-control" id="exampleInputEmail1" placeholder="Numbers"/>
+			<label >验证码序号：</label>
+			<input type="checkbox" class="cb" th:name="numbers" value="1" />1
+			<input type="checkbox" class="cb" th:name="numbers" value="2" />2
+			<input type="checkbox" class="cb" th:name="numbers" value="3" />3
+			<input type="checkbox" class="cb" th:name="numbers" value="4" />4
+			<input type="checkbox" class="cb" th:name="numbers" value="5" />5
+			<input type="checkbox" class="cb" th:name="numbers" value="6" />6
+			<input type="checkbox" class="cb" th:name="numbers" value="7" />7
+			<input type="checkbox" class="cb" th:name="numbers" value="8" />8
+			<div style="margin: 20px 0"></div>
 		</div>
 		<input type="hidden" name="pipeline" th:value="${pipeline}"/>
 		<button type="submit" class="btn btn-primary">Submit</button>

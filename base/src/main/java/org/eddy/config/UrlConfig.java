@@ -28,6 +28,12 @@ public class UrlConfig {
 
     public static String authClient;
 
+    public static String stationName;
+
+    public void setStationName(String stationName) {
+        UrlConfig.stationName = stationName;
+    }
+
     public static void setAuthClient(String authClient) {
         UrlConfig.authClient = authClient;
     }

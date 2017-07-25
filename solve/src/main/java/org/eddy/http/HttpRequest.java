@@ -179,7 +179,19 @@ public class HttpRequest {
         return result;
     }
 
+    public static String stationName() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpGet httpGet = new HttpGet(UrlConfig.stationName);
 
+        String result = StringUtils.EMPTY;
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("stationName error", e);
+        }
+
+        return result;
+    }
 
     //******************************** 私有方法 ****************************************
     private static String encode(String param) {

@@ -11,6 +11,7 @@ thrush:
     loginUrl: https://kyfw.12306.cn/passport/web/login
     uamtk: https://kyfw.12306.cn/passport/web/auth/uamtk
     authClient: https://kyfw.12306.cn/otn/uamauthclient
+    stationName: https://kyfw.12306.cn/otn/resources/js/framework/station_name.js
   user:
     username: username
     password: password

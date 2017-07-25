@@ -1,12 +1,10 @@
 package org.eddy.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eddy.solve.Station;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +27,11 @@ public class StationNameUtil {
         }).collect(Collectors.groupingBy(station -> station.getSimpleCode()));
 
         stationMaps = result;
+    }
+
+    public static Station findStation(String simpleCode) {
+        List<Station> stations = stationMaps.get(simpleCode);
+        return Optional.ofNullable(stations).filter(s -> CollectionUtils.isNotEmpty(s)).map(s -> s.get(0)).orElse(null);
     }
 
 }

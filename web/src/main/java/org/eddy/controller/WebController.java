@@ -38,4 +38,14 @@ public class WebController {
         Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping(value = "/train", method = RequestMethod.GET)
+    public String train(@RequestParam("pipeline") String pipeline, @RequestParam("passengers") String[] passengers, Model model) {
+        Objects.requireNonNull(pipeline);
+
+        model.addAttribute("pipeline", pipeline);
+        model.addAttribute("passengers", passengers);
+
+        return "train/train";
+    }
 }

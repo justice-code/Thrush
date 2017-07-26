@@ -7,6 +7,7 @@ import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
+import org.eddy.util.PassengerUtil;
 
 /**
  * Created by Justice-love on 2017/7/20.
@@ -44,8 +45,10 @@ public enum Command {
     START_CHOOSE_TRAIN {
         @Override
         public void execute(String pipeline, Object param) {
-            String passengers = HttpRequest.getPassengers();
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers), DingConfig.token);
+            String passengers = String.join(",", PassengerUtil.parsePassengerName(HttpRequest.getPassengers()));
+//            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers), DingConfig.token);
+
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers, "火车票填写", HostConfig.domain + "/web/train?passengers=" + passengers, pipeline), DingConfig.token);
         }
     },
     STOP {

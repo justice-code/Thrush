@@ -24,7 +24,7 @@ public class MarkDownUtil {
 
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
-        builder.append("* [").append(urlName).append("](").append(url).append("?pipeline=").append(pipeline).append(")\n");
+        builder.append("* [").append(urlName).append("](").append(url).append(url.contains("?") ? "&pipeline=" : "?pipeline=").append(pipeline).append(")\n");
         jsonObject.put("text", builder.toString());
         return jsonObject.toJSONString();
     }

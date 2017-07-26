@@ -32,6 +32,12 @@ public class UrlConfig {
 
     public static String passenger;
 
+    public static String ticketQuery;
+
+    public void setTicketQuery(String ticketQuery) {
+        UrlConfig.ticketQuery = ticketQuery;
+    }
+
     public void setPassenger(String passenger) {
         UrlConfig.passenger = passenger;
     }

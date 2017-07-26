@@ -13,6 +13,7 @@ thrush:
     authClient: https://kyfw.12306.cn/otn/uamauthclient
     stationName: https://kyfw.12306.cn/otn/resources/js/framework/station_name.js
     passenger: https://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs
+    ticketQuery: https://kyfw.12306.cn/otn/leftTicket/query
   user:
     username: username
     password: password

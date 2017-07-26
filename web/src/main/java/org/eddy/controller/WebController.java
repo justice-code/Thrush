@@ -3,6 +3,7 @@ package org.eddy.controller;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
+import org.eddy.web.TrainQuery;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,5 +48,13 @@ public class WebController {
         model.addAttribute("passengers", passengers);
 
         return "train/train";
+    }
+
+    @RequestMapping(value = "/submitTrain", method = RequestMethod.POST)
+    public ResponseEntity<Void> submitTrain(TrainQuery query, String pipeline) {
+        Objects.requireNonNull(query);
+        Objects.requireNonNull(pipeline);
+
+        return ResponseEntity.ok().build();
     }
 }

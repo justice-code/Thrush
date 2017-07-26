@@ -19,6 +19,16 @@ public class MarkDownUtil {
         return jsonObject.toJSONString();
     }
 
+    public static String createContent(String content, String urlName, String url, String pipeline) {
+        Objects.requireNonNull(content);
+
+        JSONObject jsonObject = template();
+        StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        builder.append("* [").append(urlName).append("](").append(url).append("?pipeline=").append(pipeline).append(")\n");
+        jsonObject.put("text", builder.toString());
+        return jsonObject.toJSONString();
+    }
+
     public static String createContent(String content, String pipeline) {
         Objects.requireNonNull(content);
 

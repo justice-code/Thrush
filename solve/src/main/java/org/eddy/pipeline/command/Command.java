@@ -2,6 +2,7 @@ package org.eddy.pipeline.command;
 
 import org.eddy.captcha.CaptchaUtil;
 import org.eddy.config.DingConfig;
+import org.eddy.config.HostConfig;
 import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
@@ -30,7 +31,7 @@ public enum Command {
             String uamtkResult = HttpRequest.uamtk();
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(uamtkResult), DingConfig.token);
             String authClientResult = HttpRequest.authClient();
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(authClientResult), DingConfig.token);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(authClientResult, "获取火车票填写页面", HostConfig.domain + "/web/tranBegin", pipeline), DingConfig.token);
         }
     },
     REFRESH_LOGIN_CAPTCHA {
@@ -38,6 +39,13 @@ public enum Command {
         public void execute(String pipeline, Object param) {
             String url = CaptchaUtil.saveImage((String) param, HttpRequest.refreshLoginCaptchaImage());
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("登录验证图片", url, pipeline), DingConfig.token);
+        }
+    },
+    START_CHOOSE_TRAIN {
+        @Override
+        public void execute(String pipeline, Object param) {
+            String passengers = HttpRequest.getPassengers();
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers), DingConfig.token);
         }
     },
     STOP {

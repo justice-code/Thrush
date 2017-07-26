@@ -30,6 +30,12 @@ public class UrlConfig {
 
     public static String stationName;
 
+    public static String passenger;
+
+    public void setPassenger(String passenger) {
+        UrlConfig.passenger = passenger;
+    }
+
     public void setStationName(String stationName) {
         UrlConfig.stationName = stationName;
     }

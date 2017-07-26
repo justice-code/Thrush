@@ -193,6 +193,22 @@ public class HttpRequest {
         return result;
     }
 
+    public static String getPassengers() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.passenger);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("getPassengers error", e);
+        }
+
+        return result;
+    }
+
     //******************************** 私有方法 ****************************************
     private static String encode(String param) {
         Objects.requireNonNull(param);

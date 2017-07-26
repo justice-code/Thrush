@@ -8,6 +8,9 @@ import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
 import org.eddy.util.PassengerUtil;
+import org.eddy.web.TrainQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Justice-love on 2017/7/20.
@@ -51,6 +54,14 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers, "火车票填写", HostConfig.domain + "/web/train?passengers=" + passengers, pipeline), DingConfig.token);
         }
     },
+    TICKET_QUERY {
+        @Override
+        public void execute(String pipeline, Object param) {
+            String ticket = HttpRequest.ticketQuery((TrainQuery) param);
+            logger.debug(ticket);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(ticket), DingConfig.token);
+        }
+    },
     STOP {
         @Override
         public void execute(String pipeline, Object param) {
@@ -61,4 +72,6 @@ public enum Command {
     public void execute(String pipeline, Object param) {
         throw new RuntimeException("unsupported");
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(Command.class);
 }

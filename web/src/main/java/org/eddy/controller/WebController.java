@@ -55,6 +55,12 @@ public class WebController {
         Objects.requireNonNull(query);
         Objects.requireNonNull(pipeline);
 
+        CommandNotify notify = new CommandNotify();
+        notify.setPipeline(pipeline);
+        notify.setArg(query);
+        notify.setCommand(Command.TICKET_QUERY);
+
+        Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();
     }
 }

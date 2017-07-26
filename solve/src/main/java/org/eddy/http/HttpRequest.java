@@ -22,6 +22,8 @@ import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
 import org.eddy.manager.ResultManager;
 import org.eddy.solve.ResultKey;
+import org.eddy.util.StationNameUtil;
+import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,6 +209,34 @@ public class HttpRequest {
         }
 
         return result;
+    }
+
+    public static String ticketQuery(TrainQuery trainQuery) {
+        Objects.requireNonNull(trainQuery);
+
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpGet httpGet = new HttpGet(UrlConfig.ticketQuery + "?" + genQueryParam(trainQuery));
+
+        httpGet.setHeader(CookieManager.cookieHeader());
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("ticketQuery error", e);
+        }
+
+        return result;
+    }
+
+    private static String genQueryParam(TrainQuery trainQuery) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("leftTicketDTO.train_date=").append(trainQuery.getDate());
+        builder.append("&leftTicketDTO.from_station=").append(StationNameUtil.findStation(trainQuery.getBegin()).getCode());
+        builder.append("&leftTicketDTO.to_station=").append(StationNameUtil.findStation(trainQuery.getEnd()).getCode());
+        builder.append("&purpose_codes=").append(trainQuery.getType());
+        return builder.toString();
     }
 
     //******************************** 私有方法 ****************************************

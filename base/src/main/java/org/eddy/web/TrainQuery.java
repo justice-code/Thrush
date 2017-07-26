@@ -13,4 +13,6 @@ public class TrainQuery {
     private String end;
     private String passenger;
     private String train;
+    private String type = "ADULT";
+
 }

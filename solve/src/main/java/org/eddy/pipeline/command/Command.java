@@ -7,10 +7,15 @@ import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
+import org.eddy.solve.Ticket;
 import org.eddy.util.PassengerUtil;
+import org.eddy.util.TicketUtil;
 import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Justice-love on 2017/7/20.
@@ -58,8 +63,8 @@ public enum Command {
         @Override
         public void execute(String pipeline, Object param) {
             String ticket = HttpRequest.ticketQuery((TrainQuery) param);
-            logger.debug(ticket);
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(ticket), DingConfig.token);
+            List<Ticket> tickets = TicketUtil.genTickets(ticket);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(Arrays.toString(tickets.toArray())), DingConfig.token);
         }
     },
     STOP {

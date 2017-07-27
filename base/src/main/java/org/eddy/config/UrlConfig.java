@@ -34,6 +34,12 @@ public class UrlConfig {
 
     public static String ticketQuery;
 
+    public static String checkUser;
+
+    public static void setCheckUser(String checkUser) {
+        UrlConfig.checkUser = checkUser;
+    }
+
     public void setTicketQuery(String ticketQuery) {
         UrlConfig.ticketQuery = ticketQuery;
     }

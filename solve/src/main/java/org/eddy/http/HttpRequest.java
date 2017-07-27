@@ -230,6 +230,24 @@ public class HttpRequest {
         return result;
     }
 
+    public static String checkUser() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.checkUser);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("checkUser error", e);
+        }
+
+        return result;
+    }
+
+    //******************************** 私有方法 ****************************************
     private static String genQueryParam(TrainQuery trainQuery) {
         StringBuilder builder = new StringBuilder();
         builder.append("leftTicketDTO.train_date=").append(trainQuery.getDate());
@@ -239,7 +257,6 @@ public class HttpRequest {
         return builder.toString();
     }
 
-    //******************************** 私有方法 ****************************************
     private static String encode(String param) {
         Objects.requireNonNull(param);
         String result = StringUtils.EMPTY;

@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>base</module>
+        <module>assemble</module>
         <module>solve</module>
-        <module>im</module>
         <module>web</module>
     </modules>
     <packaging>pom</packaging>

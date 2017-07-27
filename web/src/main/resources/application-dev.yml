@@ -15,6 +15,7 @@ thrush:
     passenger: https://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs
     ticketQuery: https://kyfw.12306.cn/otn/leftTicket/query
     checkUser: https://kyfw.12306.cn/otn/login/checkUser
+    submitOrderRequest: https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest
   user:
     username: username
     password: password

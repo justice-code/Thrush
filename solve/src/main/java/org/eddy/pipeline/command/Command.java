@@ -90,6 +90,8 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(tr.toString()), DingConfig.token);
             String result = HttpRequest.checkUser();
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+            result = HttpRequest.submitOrderRequest(tr, query);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
         }
     },
     STOP {

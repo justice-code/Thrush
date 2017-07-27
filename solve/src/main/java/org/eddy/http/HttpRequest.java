@@ -22,6 +22,7 @@ import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
 import org.eddy.manager.ResultManager;
 import org.eddy.solve.ResultKey;
+import org.eddy.solve.Ticket;
 import org.eddy.util.StationNameUtil;
 import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
@@ -247,7 +248,35 @@ public class HttpRequest {
         return result;
     }
 
+    public static String submitOrderRequest(Ticket ticket, TrainQuery query) {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.submitOrderRequest);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        String param = genSubmitOrderRequestParam(ticket, query);
+        httpPost.setEntity(new StringEntity(param, ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("checkUser error", e);
+        }
+
+        return result;
+    }
+
     //******************************** 私有方法 ****************************************
+    private static String genSubmitOrderRequestParam(Ticket ticket, TrainQuery query) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("secretStr=").append(ticket.getToken()).append("&train_date=").append(query.getDate()).append("&back_train_date=").append(query.getDate())
+                .append("&tour_flag=dc&purpose_codes=ADULT&query_from_station_name=").append(query.getBegin()).append("&query_to_station_name=").append(query.getEnd())
+                .append("&undefined");
+        return builder.toString();
+//        return "secretStr=6M83cI332lJQOYNmjw3FI67SVLruAvnrQrAS1yEV4XfMvgbkw%2B9WD9VKTQzMiz0yb2A2KBs5mopX%0A8DaZxzgGbuziE4t4kOiduHy%2Bn0I3p99ICc7QjE3Lu7OmuQt5Q8uxKH8BD3CklK1JL5LN9U9nldb3%0A7ts8bHhVQLkSdGdMSxlISdYZdzHK2kRxK2lCFyhQwmMDkmIoXHzake%2BSCQh5n50hLUWxiTx2eqDG%0AxHIbCnZbDSWV&train_date=2017-08-04&back_train_date=2017-07-27&tour_flag=dc&purpose_codes=ADULT&query_from_station_name=衡阳&query_to_station_name=长沙&undefined";
+    }
+
     private static String genQueryParam(TrainQuery trainQuery) {
         StringBuilder builder = new StringBuilder();
         builder.append("leftTicketDTO.train_date=").append(trainQuery.getDate());

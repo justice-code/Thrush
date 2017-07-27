@@ -36,6 +36,12 @@ public class UrlConfig {
 
     public static String checkUser;
 
+    public static String submitOrderRequest;
+
+    public static void setSubmitOrderRequest(String submitOrderRequest) {
+        UrlConfig.submitOrderRequest = submitOrderRequest;
+    }
+
     public static void setCheckUser(String checkUser) {
         UrlConfig.checkUser = checkUser;
     }

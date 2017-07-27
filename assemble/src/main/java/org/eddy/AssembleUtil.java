@@ -2,6 +2,7 @@ package org.eddy;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import org.apache.commons.lang3.StringUtils;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -26,7 +27,12 @@ public class AssembleUtil {
 
         Arrays.stream(propertyDescriptors).forEach(p -> {
             try {
+                if (StringUtils.equals("class", p.getDisplayName())) {
+                    return;
+                }
+
                 Field field = type.getDeclaredField(p.getDisplayName());
+                field.setAccessible(true);
                 if (!field.isAnnotationPresent(Assemble.class)) {
                     return;
                 }

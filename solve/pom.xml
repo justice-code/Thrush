@@ -21,12 +21,8 @@
         </dependency>
         <dependency>
             <groupId>org.eddy</groupId>
-            <artifactId>base</artifactId>
+            <artifactId>assemble</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>

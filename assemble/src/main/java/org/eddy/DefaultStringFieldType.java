@@ -7,9 +7,9 @@ import java.util.Optional;
 /**
  * Created by Justice-love on 2017/7/27.
  */
-public class DefaultStringFieldType implements FieldType<String, String> {
+public class DefaultStringFieldType implements FieldType<String> {
     @Override
-    public String convert(String s) {
-        return Optional.ofNullable(s).orElse(StringUtils.EMPTY);
+    public String convert(Object s) {
+        return Optional.ofNullable(s).map(m -> m.toString()).orElse(StringUtils.EMPTY);
     }
 }

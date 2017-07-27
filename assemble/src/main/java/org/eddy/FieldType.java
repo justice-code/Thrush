@@ -3,7 +3,7 @@ package org.eddy;
 /**
  * Created by Justice-love on 2017/7/27.
  */
-public interface FieldType<R,T> {
+public interface FieldType<T> {
 
-    T convert(R r);
+    T convert(Object r);
 }

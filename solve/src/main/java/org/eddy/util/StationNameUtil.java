@@ -24,13 +24,13 @@ public class StationNameUtil {
         Map<String, List<Station>> result = Arrays.stream(arr).filter(s -> StringUtils.isNotBlank(s)).map(s -> {
             String[] stations = s.split("\\|");
             return new Station(stations[0], stations[1], stations[2], stations[3]);
-        }).collect(Collectors.groupingBy(station -> station.getSimpleCode()));
+        }).collect(Collectors.groupingBy(station -> station.getName()));
 
         stationMaps = result;
     }
 
-    public static Station findStation(String simpleCode) {
-        List<Station> stations = stationMaps.get(simpleCode);
+    public static Station findStation(String name) {
+        List<Station> stations = stationMaps.get(name);
         return Optional.ofNullable(stations).filter(s -> CollectionUtils.isNotEmpty(s)).map(s -> s.get(0)).orElse(null);
     }
 

@@ -233,8 +233,8 @@ public class HttpRequest {
     private static String genQueryParam(TrainQuery trainQuery) {
         StringBuilder builder = new StringBuilder();
         builder.append("leftTicketDTO.train_date=").append(trainQuery.getDate());
-        builder.append("&leftTicketDTO.from_station=").append(StationNameUtil.findStation(trainQuery.getBegin()).getCode());
-        builder.append("&leftTicketDTO.to_station=").append(StationNameUtil.findStation(trainQuery.getEnd()).getCode());
+        builder.append("&leftTicketDTO.from_station=").append(Optional.ofNullable(StationNameUtil.findStation(trainQuery.getBegin())).map(station -> station.getCode()).orElse(StringUtils.EMPTY));
+        builder.append("&leftTicketDTO.to_station=").append(Optional.ofNullable(StationNameUtil.findStation(trainQuery.getEnd())).map(station -> station.getCode()).orElse(StringUtils.EMPTY));
         builder.append("&purpose_codes=").append(trainQuery.getType());
         return builder.toString();
     }

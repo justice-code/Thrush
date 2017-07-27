@@ -7,6 +7,7 @@ import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
+import org.eddy.pipeline.Pipeline;
 import org.eddy.solve.Ticket;
 import org.eddy.util.PassengerUtil;
 import org.eddy.util.TicketUtil;
@@ -14,7 +15,6 @@ import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,9 +62,34 @@ public enum Command {
     TICKET_QUERY {
         @Override
         public void execute(String pipeline, Object param) {
-            String ticket = HttpRequest.ticketQuery((TrainQuery) param);
+            TrainQuery query = (TrainQuery) param;
+            if (query.getALong().get() == 0) {
+                DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(query.toString()), DingConfig.token);
+            }
+
+            String ticket = HttpRequest.ticketQuery(query);
             List<Ticket> tickets = TicketUtil.genTickets(ticket);
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(Arrays.toString(tickets.toArray())), DingConfig.token);
+
+            Ticket tr = TicketUtil.findTicket(tickets, query);
+            if (null == tr) {
+                try {
+                    Thread.sleep(3_000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                CommandNotify notify = new CommandNotify();
+                notify.setPipeline(pipeline);
+                notify.setArg(query);
+                notify.setCommand(this);
+
+                Pipeline.putNotify(notify);
+                return;
+            }
+
+
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(tr.toString()), DingConfig.token);
+            String result = HttpRequest.checkUser();
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
         }
     },
     STOP {

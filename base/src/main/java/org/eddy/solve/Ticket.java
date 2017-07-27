@@ -8,7 +8,7 @@ import org.eddy.Assemble;
 /**
  * Created by Justice-love on 2017/7/27.
  */
-@Getter @Setter @ToString
+@Getter @Setter @ToString(exclude = {"token"})
 public class Ticket {
 
     // 0

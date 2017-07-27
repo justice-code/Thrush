@@ -55,7 +55,7 @@ public class TicketUtil {
             return Arrays.stream(beanInfo.getPropertyDescriptors()).filter(p -> StringUtils.equals(p.getName(), query.getSeat())).findFirst().map(p -> {
                 try {
                     Object fieldValue = p.getReadMethod().invoke(ticket);
-                    return null != fieldValue && ! StringUtils.equals("无", fieldValue.toString());
+                    return null != fieldValue && ! "".equals(fieldValue.toString()) && ! StringUtils.equals("无", fieldValue.toString());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

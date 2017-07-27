@@ -11,6 +11,7 @@ import lombok.ToString;
 public class Ticket {
 
     // 0
+
     private String token;
 
     // 3

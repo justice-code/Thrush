@@ -16,6 +16,7 @@ public class TrainQuery {
     private String end;
     private String passenger;
     private String train;
+    private String seat;
     private String type = "ADULT";
     private AtomicLong aLong = new AtomicLong(0);
 }

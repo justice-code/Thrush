@@ -63,7 +63,7 @@ public enum Command {
         @Override
         public void execute(String pipeline, Object param) {
             TrainQuery query = (TrainQuery) param;
-            if (query.getALong().get() == 0) {
+            if (query.getALong().get() == 0 ) {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(query.toString()), DingConfig.token);
             }
 

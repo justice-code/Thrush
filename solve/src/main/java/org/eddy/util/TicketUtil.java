@@ -7,10 +7,10 @@ import org.eddy.AssembleUtil;
 import org.eddy.solve.Ticket;
 import org.eddy.web.TrainQuery;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +38,30 @@ public class TicketUtil {
         Objects.requireNonNull(query);
         query.getALong().getAndIncrement();
 
-        return Optional.ofNullable(tickets).orElse(new ArrayList<>()).stream().filter(ticket -> StringUtils.equals("Y", ticket.getCanBuy()) && StringUtils.equalsIgnoreCase(ticket.getTrainNo(), query.getTrain())).findFirst().orElse(null);
+        return Optional.ofNullable(tickets).orElse(new ArrayList<>()).stream().filter(ticket -> {
+            return StringUtils.equals("Y", ticket.getCanBuy()) && StringUtils.equalsIgnoreCase(ticket.getTrainNo(), query.getTrain()) && seatCheck(ticket, query);
+        }).findFirst().orElse(null);
+    }
+
+    /**
+     * 座次校验
+     * @param ticket
+     * @param query
+     * @return true: 对应座次有票
+     */
+    private static boolean seatCheck(Ticket ticket, TrainQuery query) {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(ticket.getClass());
+            return Arrays.stream(beanInfo.getPropertyDescriptors()).filter(p -> StringUtils.equals(p.getName(), query.getSeat())).findFirst().map(p -> {
+                try {
+                    Object fieldValue = p.getReadMethod().invoke(ticket);
+                    return null != fieldValue && ! StringUtils.equals("无", fieldValue.toString());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).orElse(false);
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

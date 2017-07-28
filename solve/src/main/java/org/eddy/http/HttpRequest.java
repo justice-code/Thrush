@@ -267,6 +267,25 @@ public class HttpRequest {
         return result;
     }
 
+    public static String checkOrderInfo() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.checkOrderInfo);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+
+        httpPost.setEntity(new StringEntity("", ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("checkUser error", e);
+        }
+
+        return result;
+    }
+
     //******************************** 私有方法 ****************************************
     private static String genSubmitOrderRequestParam(Ticket ticket, TrainQuery query) {
         StringBuilder builder = new StringBuilder();

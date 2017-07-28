@@ -38,6 +38,12 @@ public class UrlConfig {
 
     public static String submitOrderRequest;
 
+    public static String checkOrderInfo;
+
+    public static void setCheckOrderInfo(String checkOrderInfo) {
+        UrlConfig.checkOrderInfo = checkOrderInfo;
+    }
+
     public static void setSubmitOrderRequest(String submitOrderRequest) {
         UrlConfig.submitOrderRequest = submitOrderRequest;
     }

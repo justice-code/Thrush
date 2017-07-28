@@ -295,7 +295,7 @@ public class HttpRequest {
         try {
             StringBuilder builder = new StringBuilder("cancel_flag=2&bed_level_order_num=000000000000000000000000000000&passengerTicketStr=");
             builder.append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
-                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(UUID.randomUUID().toString());
+                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(UUID.randomUUID().toString().replaceAll("-", ""));
             return builder.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);

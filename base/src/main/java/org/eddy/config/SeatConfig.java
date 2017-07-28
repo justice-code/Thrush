@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class SeatConfig {
 
-    public static String[] seatTypes;
+    public static String[] type;
 
-    public void setSeatTypes(String[] seatTypes) {
-        SeatConfig.seatTypes = seatTypes;
+    public static void setType(String[] type) {
+        SeatConfig.type = type;
     }
 
     public static String getSeatType(String seat) {
-        for (String st : seatTypes) {
+        for (String st : type) {
             String[] arr = st.split(":");
             if (StringUtils.equals(arr[0], seat)) {
                 return arr[1];

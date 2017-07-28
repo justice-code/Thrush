@@ -93,8 +93,8 @@ public enum Command {
             result = HttpRequest.submitOrderRequest(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             HttpRequest.initDc();
-//            result = HttpRequest.checkOrderInfo(query);
-//            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+            result = HttpRequest.checkOrderInfo(query);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
         }
     },
     STOP {

@@ -304,6 +304,8 @@ public class HttpRequest {
             result = EntityUtils.toString(response.getEntity());
             String token = TokenUtil.getToken(result);
             ResultManager.touch(token, "repeatSubmitToken");
+            String purposeCodes = TokenUtil.getPurposeCodes(result);
+            ResultManager.touch(purposeCodes, "purposeCodes");
         } catch (IOException e) {
             logger.error("checkUser error", e);
         } catch (ScriptException e) {

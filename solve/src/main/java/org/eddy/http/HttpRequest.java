@@ -27,6 +27,7 @@ import org.eddy.solve.ResultKey;
 import org.eddy.solve.Ticket;
 import org.eddy.util.PassengerUtil;
 import org.eddy.util.StationNameUtil;
+import org.eddy.util.TokenUtil;
 import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -300,9 +302,12 @@ public class HttpRequest {
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
             result = EntityUtils.toString(response.getEntity());
-            logger.debug(result);
+            String token = TokenUtil.getToken(result);
+            ResultManager.touch(token, "repeatSubmitToken");
         } catch (IOException e) {
             logger.error("checkUser error", e);
+        } catch (ScriptException e) {
+            logger.error("ScriptException checkUser error", e);
         }
 
     }
@@ -312,7 +317,7 @@ public class HttpRequest {
         try {
             StringBuilder builder = new StringBuilder("cancel_flag=2&bed_level_order_num=000000000000000000000000000000&passengerTicketStr=");
             builder.append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
-                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(UUID.randomUUID().toString().replaceAll("-", ""));
+                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY));
             return builder.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);

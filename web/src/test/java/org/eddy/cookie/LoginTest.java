@@ -1,17 +1,25 @@
 package org.eddy.cookie;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eddy.ApplicationStart;
 import org.eddy.http.HttpRequest;
 import org.eddy.pipeline.CoordinateUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Created by Justice-love on 2017/7/14.
@@ -51,6 +59,21 @@ public class LoginTest {
     public void test5() {
         HttpRequest.refreshLoginCaptchaImage();
         HttpRequest.refreshLoginCaptchaImage();
+    }
+
+    @Test
+    public void test6() throws Exception {
+        Document document = Jsoup.parse(FileUtils.readFileToString(new File("/Users/eddy/Desktop/content")));
+        Elements elements = document.getElementsByTag("script");
+        String result = elements.stream().filter(e -> e.data().contains("globalRepeatSubmitToken") && e.childNodes().size() > 0)
+                .findFirst().map(e -> e.childNode(0).outerHtml()).orElse(StringUtils.EMPTY);
+
+        ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+        ScriptEngine engine = scriptEngineManager.getEngineByExtension("js");
+        engine.eval(result);
+        Object o = engine.get("globalRepeatSubmitToken");
+        System.out.println(o);
+
     }
 
 }

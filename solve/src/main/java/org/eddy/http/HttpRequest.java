@@ -21,8 +21,10 @@ import org.eddy.config.UrlConfig;
 import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
 import org.eddy.manager.ResultManager;
+import org.eddy.solve.Passenger;
 import org.eddy.solve.ResultKey;
 import org.eddy.solve.Ticket;
+import org.eddy.util.PassengerUtil;
 import org.eddy.util.StationNameUtil;
 import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
@@ -36,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -168,7 +171,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(UrlConfig.authClient);
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> r.getValue()).orElse(StringUtils.EMPTY);
+        String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> r.getValue().toString()).orElse(StringUtils.EMPTY);
         httpPost.setEntity(new StringEntity("tk=" + param, ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;
@@ -205,6 +208,8 @@ public class HttpRequest {
         String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
             result = EntityUtils.toString(response.getEntity());
+            List<Passenger> passengers = PassengerUtil.parsePassenger(result);
+            ResultManager.touch(passengers, "passengers");
         } catch (IOException e) {
             logger.error("getPassengers error", e);
         }
@@ -287,6 +292,8 @@ public class HttpRequest {
     }
 
     //******************************** 私有方法 ****************************************
+
+
     private static String genSubmitOrderRequestParam(Ticket ticket, TrainQuery query) {
         StringBuilder builder = new StringBuilder();
         builder.append("secretStr=").append(ticket.getToken()).append("&train_date=").append(query.getDate()).append("&back_train_date=").append(query.getDate())

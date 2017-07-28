@@ -45,6 +45,22 @@ public class ResultManager {
         }
     }
 
+    public static void touch(Object value, String resultKey) {
+        Objects.requireNonNull(resultKey);
+        Objects.requireNonNull(value);
+
+
+        ThrushResult thrushResult = new ThrushResult(resultKey, value);
+
+        Set<ThrushResult> thrushResults = Optional.ofNullable(resultManager.get()).orElse(new HashSet<>());
+
+        if (thrushResults.contains(thrushResult)) {
+            thrushResults.remove(thrushResult);
+        }
+        thrushResults.add(thrushResult);
+        resultManager.set(thrushResults);
+    }
+
 
     public static ThrushResult get(String key) {
         Set<ThrushResult> thrushResults = Optional.ofNullable(resultManager.get()).orElse(new HashSet<>());

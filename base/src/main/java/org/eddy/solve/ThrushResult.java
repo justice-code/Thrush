@@ -15,7 +15,7 @@ import lombok.Setter;
 public class ThrushResult {
 
     private String key;
-    private String value;
+    private Object value;
 
     @Override
     public boolean equals(Object o) {

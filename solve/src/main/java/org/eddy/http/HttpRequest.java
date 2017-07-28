@@ -17,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+import org.eddy.config.SeatConfig;
 import org.eddy.config.UrlConfig;
 import org.eddy.config.UserConfig;
 import org.eddy.manager.CookieManager;
@@ -38,9 +39,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -272,13 +271,13 @@ public class HttpRequest {
         return result;
     }
 
-    public static String checkOrderInfo() {
+    public static String checkOrderInfo(TrainQuery query) {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(UrlConfig.checkOrderInfo);
 
         httpPost.addHeader(CookieManager.cookieHeader());
 
-        httpPost.setEntity(new StringEntity("", ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+        httpPost.setEntity(new StringEntity(genCheckOrderInfoParam(query), ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
@@ -292,7 +291,37 @@ public class HttpRequest {
     }
 
     //******************************** 私有方法 ****************************************
+    private static String genCheckOrderInfoParam(TrainQuery query) {
+        try {
+            StringBuilder builder = new StringBuilder("cancel_flag=2&bed_level_order_num=000000000000000000000000000000&passengerTicketStr=");
+            builder.append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
+                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(UUID.randomUUID().toString());
+            return builder.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private static String passengerTickets(TrainQuery query) {
+        List<Passenger> passengers = Optional.ofNullable(ResultManager.get("passengers")).map(thrushResult -> (List<Passenger>)thrushResult.getValue()).orElse(new ArrayList<>());
+        Passenger passenger = PassengerUtil.getPassenger(passengers, query);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(SeatConfig.getSeatType(query.getSeat())).append(",0,").append(passenger.getPassengerType()).append(",").append(passenger.getName())
+                .append(",").append(passenger.getIdType()).append(",").append(passenger.getIdNo()).append(",").append(passenger.getMobile()).append(",N");
+
+        return builder.toString();
+    }
+
+    private static String oldPassengers(TrainQuery query) {
+        List<Passenger> passengers = Optional.ofNullable(ResultManager.get("passengers")).map(thrushResult -> (List<Passenger>)thrushResult.getValue()).orElse(new ArrayList<>());
+        Passenger passenger = PassengerUtil.getPassenger(passengers, query);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(passenger.getName()).append(",").append(passenger.getIdType()).append(",").append(passenger.getIdNo()).append(",").append(passenger.getPassengerType()).append("_");
+
+        return builder.toString();
+    }
 
     private static String genSubmitOrderRequestParam(Ticket ticket, TrainQuery query) {
         StringBuilder builder = new StringBuilder();

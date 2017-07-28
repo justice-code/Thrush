@@ -23,7 +23,10 @@ public class TicketUtil {
 
         JSONObject jsonObject = JSONObject.parseObject(json);
         JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("result");
-        return jsonArray.stream().map(s -> {
+        return jsonArray.stream().filter(s -> {
+            String str = (String) s;
+            return ! str.contains("IS_TIME_NOT_BUY");
+        }).map(s -> {
             String str = (String) s;
             String[] arr = str.split("\\|");
             try {

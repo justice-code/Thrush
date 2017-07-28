@@ -40,15 +40,21 @@ public class UrlConfig {
 
     public static String checkOrderInfo;
 
-    public static void setCheckOrderInfo(String checkOrderInfo) {
+    public static String initDc;
+
+    public void setInitDc(String initDc) {
+        UrlConfig.initDc = initDc;
+    }
+
+    public void setCheckOrderInfo(String checkOrderInfo) {
         UrlConfig.checkOrderInfo = checkOrderInfo;
     }
 
-    public static void setSubmitOrderRequest(String submitOrderRequest) {
+    public void setSubmitOrderRequest(String submitOrderRequest) {
         UrlConfig.submitOrderRequest = submitOrderRequest;
     }
 
-    public static void setCheckUser(String checkUser) {
+    public void setCheckUser(String checkUser) {
         UrlConfig.checkUser = checkUser;
     }
 
@@ -64,7 +70,7 @@ public class UrlConfig {
         UrlConfig.stationName = stationName;
     }
 
-    public static void setAuthClient(String authClient) {
+    public void setAuthClient(String authClient) {
         UrlConfig.authClient = authClient;
     }
 

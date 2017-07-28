@@ -290,6 +290,23 @@ public class HttpRequest {
         return result;
     }
 
+    public static void initDc() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.initDc);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+            logger.debug(result);
+        } catch (IOException e) {
+            logger.error("checkUser error", e);
+        }
+
+    }
+
     //******************************** 私有方法 ****************************************
     private static String genCheckOrderInfoParam(TrainQuery query) {
         try {

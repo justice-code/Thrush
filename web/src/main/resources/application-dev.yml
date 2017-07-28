@@ -16,6 +16,7 @@ thrush:
     ticketQuery: https://kyfw.12306.cn/otn/leftTicket/query
     checkUser: https://kyfw.12306.cn/otn/login/checkUser
     submitOrderRequest: https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest
+    initDc: https://kyfw.12306.cn/otn/confirmPassenger/initDc
     checkOrderInfo: https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo
   user:
     username: username

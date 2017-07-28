@@ -19,6 +19,26 @@ public class Ticket {
     @Assemble(expression = "param[3]")
     private String trainNo;
 
+    // 2
+    @Assemble(expression = "param[2]")
+    private String trainLongNo;
+
+    // 6
+    @Assemble(expression = "param[6]")
+    private String fromStationTelecode;
+
+    // 7
+    @Assemble(expression = "param[7]")
+    private String toStationTelecode;
+
+    // 12
+    @Assemble(expression = "param[12]")
+    private String leftTicket;
+
+    // 15
+    @Assemble(expression = "param[15]")
+    private String trainLocation;
+
     //11
     @Assemble(expression = "param[11]")
     private String canBuy;

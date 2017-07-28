@@ -42,6 +42,12 @@ public class UrlConfig {
 
     public static String initDc;
 
+    public static String getQueueCount;
+
+    public void setGetQueueCount(String getQueueCount) {
+        UrlConfig.getQueueCount = getQueueCount;
+    }
+
     public void setInitDc(String initDc) {
         UrlConfig.initDc = initDc;
     }

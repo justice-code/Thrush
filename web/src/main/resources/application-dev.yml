@@ -18,6 +18,7 @@ thrush:
     submitOrderRequest: https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest
     initDc: https://kyfw.12306.cn/otn/confirmPassenger/initDc
     checkOrderInfo: https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo
+    getQueueCount: https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount
   user:
     username: username
     password: password

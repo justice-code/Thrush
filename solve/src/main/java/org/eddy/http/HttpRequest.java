@@ -340,7 +340,7 @@ public class HttpRequest {
 
         StringBuilder builder = new StringBuilder();
         builder.append("train_date=").append(formatDate(query)).append("&train_no=").append(ticket.getTrainLongNo()).append("&stationTrainCode=")
-                .append(ticket.getTrainNo()).append("&stationTrainCode=").append(SeatConfig.getSeatType(query.getSeat())).append("&fromStationTelecode=").append(ticket.getFromStationTelecode())
+                .append(ticket.getTrainNo()).append("&seatType=").append(SeatConfig.getSeatType(query.getSeat())).append("&fromStationTelecode=").append(ticket.getFromStationTelecode())
                 .append("&toStationTelecode=").append(ticket.getToStationTelecode()).append("&leftTicket=").append(ticket.getLeftTicket()).append("&purpose_codes=").append(purposeCodes)
                 .append("&train_location=").append(ticket.getTrainLocation()).append("&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
 
@@ -349,7 +349,11 @@ public class HttpRequest {
 
     private static String formatDate(TrainQuery query) {
         LocalDate localDate = LocalDate.parse(query.getDate());
-        return localDate.format(DateTimeFormatter.ofPattern("EEE MMM dd YYYY", Locale.ENGLISH)) + " 00:00:00 GMT+0800 (CST)";
+        try {
+            return URLEncoder.encode(localDate.format(DateTimeFormatter.ofPattern("EEE MMM dd YYYY", Locale.ENGLISH)) + " 00:00:00 GMT+0800 (CST)", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String genCheckOrderInfoParam(TrainQuery query) {

@@ -41,6 +41,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -298,10 +301,9 @@ public class HttpRequest {
 
         httpPost.addHeader(CookieManager.cookieHeader());
 
-        String result = StringUtils.EMPTY;
         try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
-            result = EntityUtils.toString(response.getEntity());
+            String result = EntityUtils.toString(response.getEntity());
             String token = TokenUtil.getToken(result);
             ResultManager.touch(token, "repeatSubmitToken");
             String purposeCodes = TokenUtil.getPurposeCodes(result);
@@ -314,7 +316,20 @@ public class HttpRequest {
 
     }
 
+    public static String getQueueCount(Ticket ticket, TrainQuery query) {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.getQueueCount);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        return null;
+    }
+
     //******************************** 私有方法 ****************************************
+    private static String formatDate(TrainQuery query) {
+        LocalDate localDate = LocalDate.parse(query.getDate());
+        return localDate.format(DateTimeFormatter.ofPattern("EEE MMM dd YYYY", Locale.ENGLISH)) + " 00:00:00 GMT+0800 (CST)";
+    }
+
     private static String genCheckOrderInfoParam(TrainQuery query) {
         try {
             StringBuilder builder = new StringBuilder("cancel_flag=2&bed_level_order_num=000000000000000000000000000000&passengerTicketStr=");

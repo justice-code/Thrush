@@ -7,12 +7,8 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
-
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
  * Created by eddy on 2017/7/5.

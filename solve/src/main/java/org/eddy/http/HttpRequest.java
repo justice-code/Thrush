@@ -42,7 +42,6 @@ import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -321,10 +320,33 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(UrlConfig.getQueueCount);
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        return null;
+        httpPost.setEntity(new StringEntity(getQueueCountParam(ticket, query), ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("getQueueCount error", e);
+        }
+
+        return result;
     }
 
     //******************************** 私有方法 ****************************************
+    private static String getQueueCountParam(Ticket ticket, TrainQuery query) {
+        String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        String purposeCodes = Optional.ofNullable(ResultManager.get("purposeCodes")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("train_date=").append(formatDate(query)).append("&train_no=").append(ticket.getTrainLongNo()).append("&stationTrainCode=")
+                .append(ticket.getTrainNo()).append("&stationTrainCode=").append(SeatConfig.getSeatType(query.getSeat())).append("&fromStationTelecode=").append(ticket.getFromStationTelecode())
+                .append("&toStationTelecode=").append(ticket.getToStationTelecode()).append("&leftTicket=").append(ticket.getLeftTicket()).append("&purpose_codes=").append(purposeCodes)
+                .append("&train_location=").append(ticket.getTrainLocation()).append("&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
+
+        return builder.toString();
+    }
+
     private static String formatDate(TrainQuery query) {
         LocalDate localDate = LocalDate.parse(query.getDate());
         return localDate.format(DateTimeFormatter.ofPattern("EEE MMM dd YYYY", Locale.ENGLISH)) + " 00:00:00 GMT+0800 (CST)";

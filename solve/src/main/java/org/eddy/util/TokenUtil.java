@@ -28,7 +28,15 @@ public class TokenUtil {
         return (String) engine.get("globalRepeatSubmitToken");
     }
 
+    public static String getKeyCheck(String html) throws ScriptException {
+        return getTicketInfoForPassengerForm(html, "key_check_isChange");
+    }
+
     public static String getPurposeCodes(String html) throws ScriptException {
+        return getTicketInfoForPassengerForm(html, "purpose_codes");
+    }
+
+    private static String getTicketInfoForPassengerForm(String html, String key) throws ScriptException {
         Document document = Jsoup.parse(html);
 
         Elements elements = document.getElementsByTag("script");
@@ -40,6 +48,6 @@ public class TokenUtil {
         ScriptEngine engine = scriptEngineManager.getEngineByExtension("js");
         engine.eval(jsContent);
         ScriptObjectMirror objectMirror = (ScriptObjectMirror) engine.get("ticketInfoForPassengerForm");
-        return (String) objectMirror.get("purpose_codes");
+        return (String) objectMirror.get(key);
     }
 }

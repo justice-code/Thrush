@@ -307,6 +307,8 @@ public class HttpRequest {
             ResultManager.touch(token, "repeatSubmitToken");
             String purposeCodes = TokenUtil.getPurposeCodes(result);
             ResultManager.touch(purposeCodes, "purposeCodes");
+            String keyCheck = TokenUtil.getKeyCheck(result);
+            ResultManager.touch(purposeCodes, "keyCheck");
         } catch (IOException e) {
             logger.error("checkUser error", e);
         } catch (ScriptException e) {

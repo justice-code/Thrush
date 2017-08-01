@@ -362,7 +362,7 @@ public class HttpRequest {
         StringBuilder builder = new StringBuilder();
         try {
             builder.append("passengerTicketStr=").append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
-                    .append("&randCode=").append(randCode()).append("&purpose_codes=").append(purposeCodes).append("&key_check_isChange=").append(keyCheck).append("&leftTicketStr=").append(ticket.getLeftTicket())
+                    .append("&randCode=").append(randCode()).append("&purpose_codes=").append(purposeCodes).append("&key_check_isChange=").append(keyCheck).append("&leftTicketStr=").append(URLEncoder.encode(ticket.getLeftTicket(), "UTF-8"))
                     .append("&train_location=").append(ticket.getTrainLocation()).append("&choose_seats=&seatDetailType=000&roomType=00&dwAll=N&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
 
             return builder.toString();
@@ -381,12 +381,17 @@ public class HttpRequest {
         String purposeCodes = Optional.ofNullable(ResultManager.get("purposeCodes")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("train_date=").append(formatDate(query)).append("&train_no=").append(ticket.getTrainLongNo()).append("&stationTrainCode=")
-                .append(ticket.getTrainNo()).append("&seatType=").append(SeatConfig.getSeatType(query.getSeat())).append("&fromStationTelecode=").append(ticket.getFromStationTelecode())
-                .append("&toStationTelecode=").append(ticket.getToStationTelecode()).append("&leftTicket=").append(ticket.getLeftTicket()).append("&purpose_codes=").append(purposeCodes)
-                .append("&train_location=").append(ticket.getTrainLocation()).append("&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
+        try {
+            builder.append("train_date=").append(formatDate(query)).append("&train_no=").append(ticket.getTrainLongNo()).append("&stationTrainCode=")
+                    .append(ticket.getTrainNo()).append("&seatType=").append(SeatConfig.getSeatType(query.getSeat())).append("&fromStationTelecode=").append(ticket.getFromStationTelecode())
+                    .append("&toStationTelecode=").append(ticket.getToStationTelecode()).append("&leftTicket=").append(URLEncoder.encode(ticket.getLeftTicket(), "UTF-8")).append("&purpose_codes=").append(purposeCodes)
+                    .append("&train_location=").append(ticket.getTrainLocation()).append("&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
 
-        return builder.toString();
+            return builder.toString();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private static String formatDate(TrainQuery query) {

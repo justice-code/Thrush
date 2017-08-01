@@ -308,7 +308,7 @@ public class HttpRequest {
             String purposeCodes = TokenUtil.getPurposeCodes(result);
             ResultManager.touch(purposeCodes, "purposeCodes");
             String keyCheck = TokenUtil.getKeyCheck(result);
-            ResultManager.touch(purposeCodes, "keyCheck");
+            ResultManager.touch(keyCheck, "keyCheck");
         } catch (IOException e) {
             logger.error("checkUser error", e);
         } catch (ScriptException e) {
@@ -335,7 +335,47 @@ public class HttpRequest {
         return result;
     }
 
+    public static String confirmSingleForQueue(Ticket ticket, TrainQuery query) {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.confirmSingleForQueue);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        httpPost.setEntity(new StringEntity(confirmSingleForQueueParam(ticket, query), ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+
+        String result = StringUtils.EMPTY;
+        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("confirmSingleForQueue error", e);
+        }
+
+        return result;
+    }
+
     //******************************** 私有方法 ****************************************
+    private static String confirmSingleForQueueParam(Ticket ticket, TrainQuery query) {
+        String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        String purposeCodes = Optional.ofNullable(ResultManager.get("purposeCodes")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        String keyCheck = Optional.ofNullable(ResultManager.get("keyCheck")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+
+        StringBuilder builder = new StringBuilder();
+        try {
+            builder.append("passengerTicketStr=").append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
+                    .append("&randCode=").append(randCode()).append("&purpose_codes=").append(purposeCodes).append("&key_check_isChange=").append(keyCheck).append("&leftTicketStr=").append(ticket.getLeftTicket())
+                    .append("&train_location=").append(ticket.getTrainLocation()).append("&choose_seats=&seatDetailType=000&roomType=00&dwAll=N&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
+
+            return builder.toString();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private static String randCode() {
+        return StringUtils.EMPTY;
+    }
+
     private static String getQueueCountParam(Ticket ticket, TrainQuery query) {
         String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
         String purposeCodes = Optional.ofNullable(ResultManager.get("purposeCodes")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
@@ -362,7 +402,7 @@ public class HttpRequest {
         try {
             StringBuilder builder = new StringBuilder("cancel_flag=2&bed_level_order_num=000000000000000000000000000000&passengerTicketStr=");
             builder.append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
-                    .append("&tour_flag=dc&randCode=&_json_att=&REPEAT_SUBMIT_TOKEN=").append(Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY));
+                    .append("&tour_flag=dc&randCode=").append(randCode()).append("&_json_att=&REPEAT_SUBMIT_TOKEN=").append(Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY));
             return builder.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);

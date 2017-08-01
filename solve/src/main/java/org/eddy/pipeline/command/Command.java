@@ -97,6 +97,8 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             result = HttpRequest.getQueueCount(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+            result = HttpRequest.confirmSingleForQueue(tr, query);
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
         }
     },
     STOP {

@@ -44,6 +44,12 @@ public class UrlConfig {
 
     public static String getQueueCount;
 
+    public static String confirmSingleForQueue;
+
+    public void setConfirmSingleForQueue(String confirmSingleForQueue) {
+        UrlConfig.confirmSingleForQueue = confirmSingleForQueue;
+    }
+
     public void setGetQueueCount(String getQueueCount) {
         UrlConfig.getQueueCount = getQueueCount;
     }

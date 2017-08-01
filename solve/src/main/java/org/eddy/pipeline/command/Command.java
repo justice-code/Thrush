@@ -15,6 +15,8 @@ import org.eddy.web.TrainQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -56,7 +58,11 @@ public enum Command {
             String passengers = String.join(",", PassengerUtil.parsePassengerName(HttpRequest.getPassengers()));
 //            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers), DingConfig.token);
 
-            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers, "火车票填写", HostConfig.domain + "/web/train?passengers=" + passengers, pipeline), DingConfig.token);
+            try {
+                DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(passengers, "火车票填写", HostConfig.domain + "/web/train?passengers=" + URLEncoder.encode(passengers, "UTF-8"), pipeline), DingConfig.token);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
         }
     },
     TICKET_QUERY {

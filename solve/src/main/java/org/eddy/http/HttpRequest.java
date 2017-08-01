@@ -174,7 +174,7 @@ public class HttpRequest {
         HttpPost httpPost = new HttpPost(UrlConfig.authClient);
 
         httpPost.addHeader(CookieManager.cookieHeader());
-        String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> r.getValue().toString()).orElse(StringUtils.EMPTY);
+        String param = Optional.ofNullable(ResultManager.get("tk")).map(r -> null == r.getValue() ? StringUtils.EMPTY : r.getValue().toString()).orElse(StringUtils.EMPTY);
         httpPost.setEntity(new StringEntity("tk=" + param, ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
         String result = StringUtils.EMPTY;

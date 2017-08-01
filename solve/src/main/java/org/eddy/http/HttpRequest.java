@@ -363,13 +363,20 @@ public class HttpRequest {
         try {
             builder.append("passengerTicketStr=").append(URLEncoder.encode(passengerTickets(query), "UTF-8")).append("&oldPassengerStr=").append(URLEncoder.encode(oldPassengers(query), "UTF-8"))
                     .append("&randCode=").append(randCode()).append("&purpose_codes=").append(purposeCodes).append("&key_check_isChange=").append(keyCheck).append("&leftTicketStr=").append(URLEncoder.encode(ticket.getLeftTicket(), "UTF-8"))
-                    .append("&train_location=").append(ticket.getTrainLocation()).append("&choose_seats=&seatDetailType=000&roomType=00&dwAll=N&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
+                    .append("&train_location=").append(ticket.getTrainLocation()).append("&choose_seats=&seatDetailType=").append(seatDetailType()).append("&roomType=00&dwAll=N&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
 
             return builder.toString();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private static String seatDetailType() {
+        String xNum = "0";//下铺
+        String zNum = "0";//中铺
+        String sNum = "0";//上铺
+        return xNum + zNum + sNum;
     }
 
     private static String randCode() {

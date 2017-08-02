@@ -353,7 +353,33 @@ public class HttpRequest {
         return result;
     }
 
+    public static String queryOrderWaitTime() {
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpGet httpGet = new HttpGet(UrlConfig.queryOrderWaitTime + "?" + queryOrderWaitTimeParam());
+
+        httpGet.addHeader(CookieManager.cookieHeader());
+
+        String result = StringUtils.EMPTY;
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            logger.error("queryOrderWaitTime error", e);
+        }
+
+        return result;
+    }
+
     //******************************** 私有方法 ****************************************
+    private static String queryOrderWaitTimeParam() {
+        String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("random=").append(System.currentTimeMillis()).append("&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN=").append(token);
+
+        return builder.toString();
+    }
+
     private static String confirmSingleForQueueParam(Ticket ticket, TrainQuery query) {
         String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
         String purposeCodes = Optional.ofNullable(ResultManager.get("purposeCodes")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);

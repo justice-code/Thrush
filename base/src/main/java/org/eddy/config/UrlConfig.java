@@ -46,6 +46,18 @@ public class UrlConfig {
 
     public static String confirmSingleForQueue;
 
+    public static String queryOrderWaitTime;
+
+    public static String resultOrderForDcQueue;
+
+    public void setResultOrderForDcQueue(String resultOrderForDcQueue) {
+        UrlConfig.resultOrderForDcQueue = resultOrderForDcQueue;
+    }
+
+    public void setQueryOrderWaitTime(String queryOrderWaitTime) {
+        UrlConfig.queryOrderWaitTime = queryOrderWaitTime;
+    }
+
     public void setConfirmSingleForQueue(String confirmSingleForQueue) {
         UrlConfig.confirmSingleForQueue = confirmSingleForQueue;
     }

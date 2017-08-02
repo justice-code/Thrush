@@ -20,6 +20,8 @@ thrush:
     checkOrderInfo: https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo
     getQueueCount: https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount
     confirmSingleForQueue: https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue
+    queryOrderWaitTime: https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime
+    resultOrderForDcQueue: https://kyfw.12306.cn/otn/confirmPassenger/resultOrderForDcQueue
   user:
     username: username
     password: password

@@ -105,6 +105,15 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             result = HttpRequest.confirmSingleForQueue(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+
+            try {
+                Thread.sleep(6_000);
+            } catch (InterruptedException e) {
+                logger.error("queryOrderWaitTime", e);
+            }
+
+            result = HttpRequest.queryOrderWaitTime();
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
         }
     },
     STOP {

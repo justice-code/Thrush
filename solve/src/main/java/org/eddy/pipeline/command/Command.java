@@ -9,6 +9,7 @@ import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.solve.Ticket;
+import org.eddy.util.OrderUtil;
 import org.eddy.util.PassengerUtil;
 import org.eddy.util.TicketUtil;
 import org.eddy.web.TrainQuery;
@@ -107,7 +108,9 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
 
             result = HttpRequest.queryOrderWaitTime();
+            result = OrderUtil.findOrder(result);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+
         }
     },
     STOP {

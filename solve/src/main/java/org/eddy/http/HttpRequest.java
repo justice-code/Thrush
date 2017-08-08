@@ -44,6 +44,7 @@ import java.security.cert.X509Certificate;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Justice-love on 2017/7/5.
@@ -355,11 +356,16 @@ public class HttpRequest {
 
     public static String queryOrderWaitTime() {
         CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(UrlConfig.queryOrderWaitTime + "?" + queryOrderWaitTimeParam());
-
+        String url = UrlConfig.queryOrderWaitTime + "?" + queryOrderWaitTimeParam();
+        HttpGet httpGet = new HttpGet(url);
         httpGet.addHeader(CookieManager.cookieHeader());
 
         String result = StringUtils.EMPTY;
+        try {
+            TimeUnit.SECONDS.sleep(15);
+        } catch (InterruptedException e) {
+            logger.error("queryOrderWaitTime Interrupted error", e);
+        }
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             CookieManager.touch(response);
             result = EntityUtils.toString(response.getEntity());

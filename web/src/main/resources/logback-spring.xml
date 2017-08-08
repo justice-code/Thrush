@@ -40,4 +40,16 @@
             <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
+
+    <springProfile name="temp">
+        <logger name="org.eddy" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.springframework.web" level="info" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
 </configuration>

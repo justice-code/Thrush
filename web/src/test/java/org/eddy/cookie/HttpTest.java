@@ -4,7 +4,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.eddy.config.UrlConfig;
 import org.eddy.http.HttpRequest;
 import org.eddy.manager.CookieManager;
 import org.junit.Test;

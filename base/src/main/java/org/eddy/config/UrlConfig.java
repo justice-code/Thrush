@@ -48,12 +48,6 @@ public class UrlConfig {
 
     public static String queryOrderWaitTime;
 
-    public static String resultOrderForDcQueue;
-
-    public void setResultOrderForDcQueue(String resultOrderForDcQueue) {
-        UrlConfig.resultOrderForDcQueue = resultOrderForDcQueue;
-    }
-
     public void setQueryOrderWaitTime(String queryOrderWaitTime) {
         UrlConfig.queryOrderWaitTime = queryOrderWaitTime;
     }

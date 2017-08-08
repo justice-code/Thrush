@@ -499,7 +499,7 @@ public class HttpRequest {
         return result;
     }
 
-    private static CloseableHttpClient buildHttpClient() {
+    public static CloseableHttpClient buildHttpClient() {
         return HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
     }
 

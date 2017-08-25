@@ -1,5 +1,6 @@
 package org.eddy.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.ognl.OgnlException;
 import org.eddy.http.HttpRequest;
 
@@ -17,7 +18,11 @@ public class OrderUtil {
 
     public static String orderId(String json) throws OgnlException {
         String order = JsonUtil.extract("data.orderId", json);
-        return order;
+        if (StringUtils.isBlank(order)) {
+            return JsonUtil.extract("data.msg", json);
+        } else {
+            return order;
+        }
     }
 
     public static String findOrder(String json) {
@@ -29,7 +34,7 @@ public class OrderUtil {
                 String result = HttpRequest.queryOrderWaitTime();
                 return findOrder(result);
             } else {
-                return orderId(json);
+                 return orderId(json);
             }
 
         } catch (Exception e) {

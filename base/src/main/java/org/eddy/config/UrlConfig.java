@@ -1,7 +1,5 @@
 package org.eddy.config;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -47,12 +45,6 @@ public class UrlConfig {
     public static String confirmSingleForQueue;
 
     public static String queryOrderWaitTime;
-
-    public static String resultOrderForDcQueue;
-
-    public void setResultOrderForDcQueue(String resultOrderForDcQueue) {
-        UrlConfig.resultOrderForDcQueue = resultOrderForDcQueue;
-    }
 
     public void setQueryOrderWaitTime(String queryOrderWaitTime) {
         UrlConfig.queryOrderWaitTime = queryOrderWaitTime;

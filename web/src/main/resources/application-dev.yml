@@ -27,12 +27,12 @@ thrush:
     password: password
   image:
     imageLocation: /Users/xuyi/Downloads/12306
-    url: http://10.2.112.1:8081
+    url: http://192.168.23.142:8081
   ding:
     url: https://oapi.dingtalk.com/robot/send?access_token=
     token: 9048bea05b7f10ac4fb28445397554d8232611e03cf7c872b9cdc7526a1522fe
     notifyToken: cdfea81c7b8bfa12f8e89d94b47ab85f2b5d1a617980e6dd55a33ffc4ae20ae0
   host:
-    domain: http://10.2.112.1:8080
+    domain: http://192.168.23.142:8080
   seat:
     type: swz:P,ydz:M,edz:O,rw:4,yw:3,yz:1,wz:1

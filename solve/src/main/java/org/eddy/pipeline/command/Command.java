@@ -101,9 +101,9 @@ public enum Command {
 
             if (JsonUtil.needPassCode(result)) {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("亲，请输入验证码"), DingConfig.token);
-                goConfirm(pipeline, param);
             } else {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("无需验证购票, 继续下单流程"), DingConfig.token);
+                goConfirm(pipeline, param);
             }
         }
 

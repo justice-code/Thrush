@@ -41,7 +41,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="temp">
+    <springProfile name="work">
         <logger name="org.eddy" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>

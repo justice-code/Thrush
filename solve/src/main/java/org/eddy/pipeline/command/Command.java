@@ -102,6 +102,7 @@ public enum Command {
             HttpRequest.initDc();
             result = HttpRequest.checkOrderInfo(query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+
             result = HttpRequest.getQueueCount(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             result = HttpRequest.confirmSingleForQueue(tr, query);
@@ -113,6 +114,7 @@ public enum Command {
 
         }
     },
+
     STOP {
         @Override
         public void execute(String pipeline, Object param) {

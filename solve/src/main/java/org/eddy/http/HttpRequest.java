@@ -276,6 +276,7 @@ public class HttpRequest {
         return result;
     }
 
+    //ifShowPassCode
     public static String checkOrderInfo(TrainQuery query) {
         CloseableHttpClient httpClient = buildHttpClient();
         HttpPost httpPost = new HttpPost(UrlConfig.checkOrderInfo);

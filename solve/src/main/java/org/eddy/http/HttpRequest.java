@@ -83,37 +83,11 @@ public class HttpRequest {
     }
 
     public static byte[] loginCaptchaImage() {
-        CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(UrlConfig.loginCaptcha);
-
-        httpGet.addHeader(CookieManager.cookieHeader());
-
-        byte[] result = new byte[0];
-        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            CookieManager.touch(response);
-            result = EntityUtils.toByteArray(response.getEntity());
-        } catch (IOException e) {
-            logger.error("loginCaptchaImage error", e);
-        }
-
-        return result;
+        return captchaImage(UrlConfig.loginCaptcha);
     }
 
     public static byte[] refreshLoginCaptchaImage() {
-        CloseableHttpClient httpClient = buildHttpClient();
-        HttpGet httpGet = new HttpGet(UrlConfig.refreshLoginCaptcha);
-
-        httpGet.addHeader(CookieManager.cookieHeader());
-
-        byte[] result = new byte[0];
-        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            CookieManager.touch(response);
-            result = EntityUtils.toByteArray(response.getEntity());
-        } catch (IOException e) {
-            logger.error("refreshLoginCaptchaImage error", e);
-        }
-
-        return result;
+        return captchaImage(UrlConfig.refreshLoginCaptcha);
     }
 
     public static void checkRandCode(String randCode) {
@@ -377,7 +351,30 @@ public class HttpRequest {
         return result;
     }
 
+    public static byte[] confirmTicketCaptchaImage() {
+        return captchaImage(UrlConfig.confirmTicketCaptcha);
+    }
+
     //******************************** 私有方法 ****************************************
+    private static byte[] captchaImage(String url) {
+        Objects.requireNonNull(url);
+
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpGet httpGet = new HttpGet(url);
+
+        httpGet.addHeader(CookieManager.cookieHeader());
+
+        byte[] result = new byte[0];
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            CookieManager.touch(response);
+            result = EntityUtils.toByteArray(response.getEntity());
+        } catch (IOException e) {
+            logger.error("captchaImage error", e);
+        }
+
+        return result;
+    }
+
     private static String queryOrderWaitTimeParam() {
         String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
 

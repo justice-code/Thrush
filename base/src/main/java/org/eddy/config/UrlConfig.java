@@ -46,6 +46,18 @@ public class UrlConfig {
 
     public static String queryOrderWaitTime;
 
+    public static String confirmTicketCaptcha;
+
+    public static String checkRandCodeAnsyn;
+
+    public void setConfirmTicketCaptcha(String confirmTicketCaptcha) {
+        UrlConfig.confirmTicketCaptcha = confirmTicketCaptcha;
+    }
+
+    public void setCheckRandCodeAnsyn(String checkRandCodeAnsyn) {
+        UrlConfig.checkRandCodeAnsyn = checkRandCodeAnsyn;
+    }
+
     public void setQueryOrderWaitTime(String queryOrderWaitTime) {
         UrlConfig.queryOrderWaitTime = queryOrderWaitTime;
     }

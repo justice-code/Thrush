@@ -355,7 +355,35 @@ public class HttpRequest {
         return captchaImage(UrlConfig.confirmTicketCaptcha);
     }
 
+    public static void checkRandCodeAnsyn(String randCode) {
+        Objects.requireNonNull(randCode);
+        ResultManager.touch(randCode, "confirmRandCode");
+
+        CloseableHttpClient httpClient = buildHttpClient();
+        HttpPost httpPost = new HttpPost(UrlConfig.checkRandCodeAnsyn);
+
+        httpPost.addHeader(CookieManager.cookieHeader());
+        httpPost.setEntity(new StringEntity(checkRandCodeAnsynParam(), ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
+
+        try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+            CookieManager.touch(response);
+            logger.debug(EntityUtils.toString(response.getEntity()));
+        } catch (IOException e) {
+            logger.error("checkRandCodeAnsyn error", e);
+        }
+    }
+
     //******************************** 私有方法 ****************************************
+    private static String checkRandCodeAnsynParam() {
+        String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        String randCode = Optional.ofNullable(ResultManager.get("confirmRandCode")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+
+        StringBuilder stringBuilder = new StringBuilder("randCode=");
+        stringBuilder.append(encode(randCode)).append("&rand=randp&_json_att=&").append("REPEAT_SUBMIT_TOKEN=").append(token);
+
+        return stringBuilder.toString();
+    }
+
     private static byte[] captchaImage(String url) {
         Objects.requireNonNull(url);
 

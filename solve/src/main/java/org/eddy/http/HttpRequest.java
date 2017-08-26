@@ -506,7 +506,7 @@ public class HttpRequest {
     }
 
     public static CloseableHttpClient buildHttpClient() {
-        return HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).build();
+        return HttpClients.custom().setConnectionManager(pools).setUserAgent(USER_AGENT).evictIdleConnections(30, TimeUnit.SECONDS).build();
     }
 
     private static SSLContext createContext() {

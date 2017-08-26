@@ -438,7 +438,12 @@ public class HttpRequest {
     }
 
     private static String randCode() {
-        return StringUtils.EMPTY;
+        String code = Optional.ofNullable(ResultManager.get("confirmRandCode")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        if (StringUtils.isBlank(code)) {
+            return StringUtils.EMPTY;
+        } else {
+            return encode(code);
+        }
     }
 
     private static String getQueueCountParam(Ticket ticket, TrainQuery query) {

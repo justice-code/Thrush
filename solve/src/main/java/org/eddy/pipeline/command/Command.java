@@ -9,6 +9,7 @@ import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.CoordinateUtil;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.solve.Ticket;
+import org.eddy.util.JsonUtil;
 import org.eddy.util.OrderUtil;
 import org.eddy.util.PassengerUtil;
 import org.eddy.util.TicketUtil;
@@ -103,7 +104,22 @@ public enum Command {
             result = HttpRequest.checkOrderInfo(query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
 
-            result = HttpRequest.getQueueCount(tr, query);
+            if (JsonUtil.needPassCode(result)) {
+                DingMsgSender.markdown.sendMsg("无需验证购票", DingConfig.token);
+            } else {
+                DingMsgSender.markdown.sendMsg("亲，请输入验证码", DingConfig.token);
+            }
+        }
+    },
+    CONFIRM {
+        @Override
+        public void execute(String pipeline, Object param) {
+            TrainQuery query = (TrainQuery) param;
+            String ticket = HttpRequest.ticketQuery(query);
+            List<Ticket> tickets = TicketUtil.genTickets(ticket);
+            Ticket tr = TicketUtil.findTicket(tickets, query);
+
+            String result = HttpRequest.getQueueCount(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             result = HttpRequest.confirmSingleForQueue(tr, query);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
@@ -111,10 +127,8 @@ public enum Command {
             result = HttpRequest.queryOrderWaitTime();
             result = OrderUtil.findOrder(result);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
-
         }
     },
-
     STOP {
         @Override
         public void execute(String pipeline, Object param) {

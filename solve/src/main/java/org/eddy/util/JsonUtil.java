@@ -20,4 +20,13 @@ public class JsonUtil {
         return Optional.ofNullable(value).map(s -> s.toString()).orElse(StringUtils.EMPTY);
     }
 
+    public static boolean needPassCode(String json) {
+        Objects.requireNonNull(json);
+
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        String result = jsonObject.getJSONObject("data").getString("ifShowPassCode");
+
+        return StringUtils.equalsIgnoreCase("Y", result);
+    }
+
 }

@@ -85,12 +85,7 @@ public enum Command {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                CommandNotify notify = new CommandNotify();
-                notify.setPipeline(pipeline);
-                notify.setArg(query);
-                notify.setCommand(this);
-
-                Pipeline.putNotify(notify);
+                continueQuery(pipeline, param);
                 return;
             }
 
@@ -106,9 +101,29 @@ public enum Command {
 
             if (JsonUtil.needPassCode(result)) {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("亲，请输入验证码"), DingConfig.token);
+                goConfirm(pipeline, param);
             } else {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("无需验证购票, 继续下单流程"), DingConfig.token);
             }
+        }
+
+        private void continueQuery(String pipeline, Object param) {
+            CommandNotify notify = new CommandNotify();
+            notify.setPipeline(pipeline);
+            notify.setArg(param);
+            notify.setCommand(this);
+
+            Pipeline.putNotify(notify);
+        }
+
+
+        private void goConfirm(String pipeline, Object param) {
+            CommandNotify notify = new CommandNotify();
+            notify.setPipeline(pipeline);
+            notify.setArg(param);
+            notify.setCommand(Command.CONFIRM);
+
+            Pipeline.putNotify(notify);
         }
     },
     CONFIRM {

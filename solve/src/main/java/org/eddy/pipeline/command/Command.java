@@ -101,6 +101,7 @@ public enum Command {
 
             if (JsonUtil.needPassCode(result)) {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("亲，请输入验证码"), DingConfig.token);
+                goTicketCaptcha(pipeline, param);
             } else {
                 DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent("无需验证购票, 继续下单流程"), DingConfig.token);
                 goConfirm(pipeline, param);
@@ -122,6 +123,15 @@ public enum Command {
             notify.setPipeline(pipeline);
             notify.setArg(param);
             notify.setCommand(Command.CONFIRM);
+
+            Pipeline.putNotify(notify);
+        }
+
+        private void goTicketCaptcha(String pipeline, Object param) {
+            CommandNotify notify = new CommandNotify();
+            notify.setPipeline(pipeline);
+            notify.setArg(param);
+            notify.setCommand(Command.TICKET_CAPTCHA);
 
             Pipeline.putNotify(notify);
         }

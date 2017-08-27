@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<title>请输入购票验证码</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<style>
+		form{
+			text-align: center;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	</style>
+</head>
+<body>
+<form method="post" action="/task/confirmTicket">
+	<div class="form-group form-inline">
+		<label >验证码序号：</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="1" />1</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="2" />2</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="3" />3</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="4" />4</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="5" />5</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="6" />6</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="7" />7</label><br/>
+		<label><input type="checkbox" class="cb" th:name="numbers" value="8" />8</label><br/>
+		<div style="margin: 20px 0"></div>
+	</div>
+	<input type="hidden" name="pipeline" th:value="${pipeline}"/>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

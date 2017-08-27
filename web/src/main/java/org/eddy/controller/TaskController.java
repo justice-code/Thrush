@@ -65,4 +65,31 @@ public class TaskController {
         Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping(path = "/confirmTicket", method = RequestMethod.POST)
+    public ResponseEntity<Void> ticketCaptcha(String pipeline, Integer[] numbers) {
+        Objects.requireNonNull(pipeline);
+        Objects.requireNonNull(numbers);
+
+        CommandNotify notify = new CommandNotify();
+        notify.setPipeline(pipeline);
+        notify.setArg(numbers);
+        notify.setCommand(Command.TICKET_CAPTCHA_VERIFY);
+
+        Pipeline.putNotify(notify);
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(path = "/confirmOrder", method = RequestMethod.POST)
+    public ResponseEntity<Void> confirmOrder(String pipeline) {
+        Objects.requireNonNull(pipeline);
+
+        CommandNotify notify = new CommandNotify();
+        notify.setPipeline(pipeline);
+        notify.setArg(null);
+        notify.setCommand(Command.CONFIRM);
+
+        Pipeline.putNotify(notify);
+        return ResponseEntity.ok().build();
+    }
 }

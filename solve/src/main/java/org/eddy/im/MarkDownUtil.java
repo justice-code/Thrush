@@ -64,6 +64,17 @@ public class MarkDownUtil {
         return jsonObject.toJSONString();
     }
 
+    public static String order(String content, String pipeline) {
+        Objects.requireNonNull(content);
+
+        JSONObject jsonObject = template();
+        StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/confirmRefresh?pipeline=").append(pipeline).append(")\n");
+        builder.append("* [进入下一步流程](").append(HostConfig.domain).append("/task/confirmOrder?pipeline=").append(pipeline).append(")\n");
+        jsonObject.put("text", builder.toString());
+        return jsonObject.toJSONString();
+    }
+
     public static String begin() {
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append("开启12306抢票任务").append("\n");

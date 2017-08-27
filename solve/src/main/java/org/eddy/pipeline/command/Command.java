@@ -143,6 +143,13 @@ public enum Command {
             DingMsgSender.markdown.sendMsg(MarkDownUtil.confirmTicket("购票验证图片", url, pipeline), DingConfig.token);
         }
     },
+    TICKET_CAPTCHA_VERIFY {
+        @Override
+        public void execute(String pipeline, Object param) {
+            HttpRequest.checkRandCodeAnsyn(CoordinateUtil.computeCoordinate((Integer[]) param));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.order("购票验证码结果", pipeline), DingConfig.token);
+        }
+    },
     CONFIRM {
         @Override
         public void execute(String pipeline, Object param) {

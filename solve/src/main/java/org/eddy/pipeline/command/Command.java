@@ -126,6 +126,13 @@ public enum Command {
             Pipeline.putNotify(notify);
         }
     },
+    TICKET_CAPTCHA {
+        @Override
+        public void execute(String pipeline, Object param) {
+            String url = CaptchaUtil.saveImage((String) param, HttpRequest.confirmTicketCaptchaImage());
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.confirmTicket("购票验证图片", url, pipeline), DingConfig.token);
+        }
+    },
     CONFIRM {
         @Override
         public void execute(String pipeline, Object param) {

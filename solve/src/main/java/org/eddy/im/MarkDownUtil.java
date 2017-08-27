@@ -52,6 +52,18 @@ public class MarkDownUtil {
         return jsonObject.toJSONString();
     }
 
+    public static String confirmTicket(String content, String url, String pipeline) {
+        Objects.requireNonNull(content);
+
+        JSONObject jsonObject = template();
+        StringBuilder builder = new StringBuilder("* ").append(content).append("\n");
+        builder.append("* [刷新验证码](").append(HostConfig.domain).append("/task/confirmRefresh?pipeline=").append(pipeline).append(")\n");
+        builder.append("* [输入验证码](").append(HostConfig.domain).append("/web/confirmLoginCaptcha?pipeline=").append(pipeline).append(")\n");
+        builder.append("![验证码](").append(url).append(")");
+        jsonObject.put("text", builder.toString());
+        return jsonObject.toJSONString();
+    }
+
     public static String begin() {
         JSONObject jsonObject = template();
         StringBuilder builder = new StringBuilder("* ").append("开启12306抢票任务").append("\n");

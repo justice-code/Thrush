@@ -146,7 +146,8 @@ public enum Command {
     TICKET_CAPTCHA_VERIFY {
         @Override
         public void execute(String pipeline, Object param) {
-            HttpRequest.checkRandCodeAnsyn(CoordinateUtil.computeCoordinate((Integer[]) param));
+            String result = HttpRequest.checkRandCodeAnsyn(CoordinateUtil.computeCoordinate((Integer[]) param));
+            DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.order("购票验证码结果", pipeline), DingConfig.token);
         }
     },

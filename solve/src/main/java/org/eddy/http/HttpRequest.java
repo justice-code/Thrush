@@ -355,7 +355,7 @@ public class HttpRequest {
         return captchaImage(UrlConfig.confirmTicketCaptcha);
     }
 
-    public static void checkRandCodeAnsyn(String randCode) {
+    public static String checkRandCodeAnsyn(String randCode) {
         Objects.requireNonNull(randCode);
         ResultManager.touch(randCode, "confirmRandCode");
 
@@ -365,12 +365,16 @@ public class HttpRequest {
         httpPost.addHeader(CookieManager.cookieHeader());
         httpPost.setEntity(new StringEntity(checkRandCodeAnsynParam(), ContentType.create("application/x-www-form-urlencoded", Consts.UTF_8)));
 
+        String result = StringUtils.EMPTY;
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
             CookieManager.touch(response);
-            logger.debug(EntityUtils.toString(response.getEntity()));
+            result = EntityUtils.toString(response.getEntity());
+            logger.debug(result);
         } catch (IOException e) {
             logger.error("checkRandCodeAnsyn error", e);
         }
+
+        return result;
     }
 
     //******************************** 私有方法 ****************************************

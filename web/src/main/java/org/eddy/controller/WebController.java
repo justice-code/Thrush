@@ -63,4 +63,10 @@ public class WebController {
         Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping(value = "/confirmTicketCaptcha", method = RequestMethod.GET)
+    public String ticketCaptcha(@RequestParam("pipeline") String pipeline, Model model) {
+        model.addAttribute("pipeline", pipeline);
+        return "login/ticketCaptcha";
+    }
 }

@@ -130,7 +130,7 @@ public enum Command {
         private void goTicketCaptcha(String pipeline, Object param) {
             CommandNotify notify = new CommandNotify();
             notify.setPipeline(pipeline);
-            notify.setArg(param);
+            notify.setArg(CaptchaUtil.imageFileName());
             notify.setCommand(Command.TICKET_CAPTCHA);
 
             Pipeline.putNotify(notify);

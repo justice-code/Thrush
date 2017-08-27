@@ -45,12 +45,22 @@ public class TaskController {
 
     @RequestMapping(path = "/refresh", method = RequestMethod.GET)
     public ResponseEntity<Void> refreshLoginCaptcha(String pipeline) {
+        return refreshCaptcha(pipeline, Command.REFRESH_LOGIN_CAPTCHA);
+    }
+
+    @RequestMapping(path = "/confirmRefresh", method = RequestMethod.GET)
+    public ResponseEntity<Void> refreshTicketCaptcha(String pipeline) {
+        return refreshCaptcha(pipeline, Command.TICKET_CAPTCHA);
+    }
+
+    private ResponseEntity<Void> refreshCaptcha(String pipeline, Command command) {
         Objects.requireNonNull(pipeline);
+        Objects.requireNonNull(command);
 
         CommandNotify notify = new CommandNotify();
         notify.setPipeline(pipeline);
         notify.setArg(CaptchaUtil.imageFileName());
-        notify.setCommand(Command.REFRESH_LOGIN_CAPTCHA);
+        notify.setCommand(command);
 
         Pipeline.putNotify(notify);
         return ResponseEntity.ok().build();

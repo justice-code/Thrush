@@ -80,7 +80,7 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(path = "/confirmOrder", method = RequestMethod.POST)
+    @RequestMapping(path = "/confirmOrder", method = RequestMethod.GET)
     public ResponseEntity<Void> confirmOrder(String pipeline) {
         Objects.requireNonNull(pipeline);
 

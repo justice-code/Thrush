@@ -380,7 +380,7 @@ public class HttpRequest {
     //******************************** 私有方法 ****************************************
     private static String checkRandCodeAnsynParam() {
         String token = Optional.ofNullable(ResultManager.get("repeatSubmitToken")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
-        String randCode = Optional.ofNullable(ResultManager.get("confirmRandCode")).map(thrushResult -> (String)thrushResult.getValue()).orElse(StringUtils.EMPTY);
+        String randCode = randCode();
 
         StringBuilder stringBuilder = new StringBuilder("randCode=");
         stringBuilder.append(encode(randCode)).append("&rand=randp&_json_att=&").append("REPEAT_SUBMIT_TOKEN=").append(token);

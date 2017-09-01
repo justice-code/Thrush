@@ -21,6 +21,8 @@ thrush:
     getQueueCount: https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount
     confirmSingleForQueue: https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue
     queryOrderWaitTime: https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime
+    confirmTicketCaptcha: https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=passenger&rand=randp
+    checkRandCodeAnsyn: https://kyfw.12306.cn/otn/passcodeNew/checkRandCodeAnsyn
   user:
     username: username
     password: password

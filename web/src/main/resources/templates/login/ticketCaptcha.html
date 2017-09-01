@@ -16,21 +16,22 @@
 	</style>
 </head>
 <body>
-<form method="post" action="/task/confirmTicket">
-	<div class="form-group form-inline">
-		<label >验证码序号：</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="1" />1</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="2" />2</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="3" />3</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="4" />4</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="5" />5</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="6" />6</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="7" />7</label><br/>
-		<label><input type="checkbox" class="cb" th:name="numbers" value="8" />8</label><br/>
-		<div style="margin: 20px 0"></div>
-	</div>
-	<input type="hidden" name="pipeline" th:value="${pipeline}"/>
-	<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+	<p2>购票验证</p2>
+	<form method="post" action="/task/confirmTicket">
+		<div class="form-group form-inline">
+			<label >验证码序号：</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="1" />1</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="2" />2</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="3" />3</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="4" />4</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="5" />5</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="6" />6</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="7" />7</label><br/>
+			<label><input type="checkbox" class="cb" th:name="numbers" value="8" />8</label><br/>
+			<div style="margin: 20px 0"></div>
+		</div>
+		<input type="hidden" name="pipeline" th:value="${pipeline}"/>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 </body>
 </html>

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.ognl.OgnlException;
 import org.eddy.http.HttpRequest;
 
+import java.util.concurrent.TimeUnit;
+
 public class OrderUtil {
 
     public static int needQuery(String json) throws OgnlException {
@@ -30,7 +32,7 @@ public class OrderUtil {
             int time = OrderUtil.needQuery(json);
 
             if (time > 0) {
-                Thread.sleep(time * 1000);
+                TimeUnit.SECONDS.sleep(2);
                 String result = HttpRequest.queryOrderWaitTime();
                 return findOrder(result);
             } else {

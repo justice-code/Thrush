@@ -6,6 +6,7 @@ import org.eddy.config.HostConfig;
 import org.eddy.http.HttpRequest;
 import org.eddy.im.DingMsgSender;
 import org.eddy.im.MarkDownUtil;
+import org.eddy.manager.ResultManager;
 import org.eddy.pipeline.CoordinateUtil;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.solve.Ticket;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Justice-love on 2017/7/20.
@@ -133,6 +135,8 @@ public enum Command {
             notify.setArg(CaptchaUtil.imageFileName());
             notify.setCommand(Command.TICKET_CAPTCHA);
 
+            ResultManager.touch(param, "trainQuery");
+
             Pipeline.putNotify(notify);
         }
     },
@@ -154,7 +158,7 @@ public enum Command {
     CONFIRM {
         @Override
         public void execute(String pipeline, Object param) {
-            TrainQuery query = (TrainQuery) param;
+            TrainQuery query = (TrainQuery) getParam(param);
             String ticket = HttpRequest.ticketQuery(query);
             List<Ticket> tickets = TicketUtil.genTickets(ticket);
             Ticket tr = TicketUtil.findTicket(tickets, query);
@@ -167,6 +171,14 @@ public enum Command {
             result = HttpRequest.queryOrderWaitTime();
             result = OrderUtil.findOrder(result);
             DingMsgSender.markdown.sendMsg(MarkDownUtil.createContent(result), DingConfig.token);
+        }
+
+        private Object getParam(Object param) {
+            if (null == param) {
+                return Optional.ofNullable(ResultManager.get("trainQuery")).map(thrushResult -> thrushResult.getValue()).orElse(null);
+            } else {
+                return param;
+            }
         }
     },
     STOP {

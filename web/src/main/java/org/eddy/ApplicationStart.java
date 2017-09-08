@@ -15,8 +15,7 @@ public class ApplicationStart {
 
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(ApplicationStart.class);
-        springApplication.addListeners(new ApplicationPidFileWriter("thrush.pid"));
-        springApplication.addListeners(new ThrushApplicationListener());
+        springApplication.addListeners(new ApplicationPidFileWriter("thrush.pid"), new ThrushApplicationListener());
         springApplication.run(args);
     }
 }

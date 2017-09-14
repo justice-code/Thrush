@@ -6,3 +6,6 @@ spring:
       content-type: text/html
       mode: HTML5
       encoding: UTF-8
+thrush:
+  login:
+    password: xxxxxxxx

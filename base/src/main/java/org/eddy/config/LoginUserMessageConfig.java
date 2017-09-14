@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by eddy on 2017/3/21.
  */
-@ConfigurationProperties("qlc.login")
+@ConfigurationProperties("thrush.login")
 @Component
 public class LoginUserMessageConfig {
 

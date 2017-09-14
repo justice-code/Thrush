@@ -1,5 +1,6 @@
 package org.eddy.controller;
 
+import org.eddy.annotation.LoginCheck;
 import org.eddy.captcha.CaptchaUtil;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
@@ -18,6 +19,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("/task")
+@LoginCheck
 public class TaskController {
 
     @Autowired

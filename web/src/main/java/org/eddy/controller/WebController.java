@@ -1,5 +1,6 @@
 package org.eddy.controller;
 
+import org.eddy.annotation.LoginCheck;
 import org.eddy.pipeline.Pipeline;
 import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
@@ -19,6 +20,7 @@ import java.util.Objects;
  */
 @Controller
 @RequestMapping("/web")
+@LoginCheck
 public class WebController {
 
     @RequestMapping(value = "/loginCaptcha", method = RequestMethod.GET)

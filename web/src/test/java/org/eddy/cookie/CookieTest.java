@@ -17,12 +17,9 @@ import java.io.IOException;
 @SpringBootTest(classes = {ApplicationStart.class})
 public class CookieTest {
 
-    @Autowired
-    private HttpRequest httpRequest;
-
     @Test
     public void test1() throws IOException {
-        httpRequest.init();
+        HttpRequest.init();
     }
 
 }

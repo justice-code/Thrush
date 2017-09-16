@@ -4,17 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.eddy.http.HttpRequest;
 import org.eddy.pipeline.command.CommandNotify;
+import org.eddy.pipeline.command.RetryCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -27,23 +21,39 @@ public class NotifyRunnable implements Runnable {
     // 3分钟
     private static final int DEFAULT_TIME = 10;
 
+    private static final int RETRY_TIME = 3;
+
     private String pipelineGroup;
 
     @Override
     public void run() {
-        try {
-            execute();
-        } catch (Exception e) {
-            logger.error("execute error, end ", e);
-        }
+        execute();
     }
 
     //***************************************************** private *******************************************************
 
     private void execute() {
-        CommandNotify commandNotify = findLoginNotify();
-        commandNotify.getCommand().execute(this.getPipelineGroup(), commandNotify.getArg());
-        execute();
+        CommandNotify commandNotify = null;
+        try {
+            commandNotify = findLoginNotify();
+            commandNotify.getCommand().execute(this.getPipelineGroup(), commandNotify.getArg());
+            execute();
+        } catch (Exception e) {
+            RetryCommand retryCommand;
+
+            if (null == commandNotify) {
+                retryCommand = new RetryCommand(null);
+                retryCommand.setRetryTime(Integer.MAX_VALUE - 1);
+            } else if (commandNotify instanceof RetryCommand) {
+                retryCommand = (RetryCommand) commandNotify;
+            } else {
+                retryCommand = new RetryCommand(commandNotify);
+            }
+            retryCommand.increase();
+
+            ExceptionPipeline.putNotify(retryCommand);
+            execute();
+        }
     }
 
     private CommandNotify findLoginNotify() {

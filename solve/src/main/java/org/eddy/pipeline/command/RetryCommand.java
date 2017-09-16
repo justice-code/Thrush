@@ -10,11 +10,14 @@ public class RetryCommand extends CommandNotify {
 
     private int retryTime;
 
-    public RetryCommand(CommandNotify commandNotify, int retryTime) {
+    public RetryCommand(CommandNotify commandNotify) {
         Objects.requireNonNull(commandNotify);
-        this.retryTime = retryTime;
         super.command = commandNotify.getCommand();
         super.arg = commandNotify.getArg();
         super.pipeline = commandNotify.getPipeline();
+    }
+
+    public void increase() {
+        retryTime++;
     }
 }

@@ -28,9 +28,9 @@ public class Pipeline {
         }
     }
 
-    public static CommandNotify pollNotify(int time) {
+    public static CommandNotify pollNotify(int minutes) {
         try {
-            return queue.poll(time, TimeUnit.MINUTES);
+            return queue.poll(minutes, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             throw new RuntimeException("take CaptchaNotify error", e);
         }

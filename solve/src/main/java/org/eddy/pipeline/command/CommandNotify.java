@@ -8,9 +8,9 @@ import lombok.*;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
 public class CommandNotify {
 
-    private Command command;
+    protected Command command;
 
-    private String pipeline;
+    protected String pipeline;
 
-    private Object arg;
+    protected Object arg;
 }

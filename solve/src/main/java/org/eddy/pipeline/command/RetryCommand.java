@@ -10,6 +10,8 @@ public class RetryCommand extends CommandNotify {
 
     private int retryTime;
 
+    private static final int RETRY_TIME = 3;
+
     public RetryCommand(CommandNotify commandNotify) {
         Objects.requireNonNull(commandNotify);
         super.command = commandNotify.getCommand();
@@ -19,5 +21,9 @@ public class RetryCommand extends CommandNotify {
 
     public void increase() {
         retryTime++;
+    }
+
+    public boolean needStop() {
+        return retryTime >= RETRY_TIME;
     }
 }

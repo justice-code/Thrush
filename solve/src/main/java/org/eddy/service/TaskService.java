@@ -1,13 +1,16 @@
 package org.eddy.service;
 
 import org.eddy.captcha.CaptchaUtil;
+import org.eddy.pipeline.ExceptionPipeline;
 import org.eddy.pipeline.NotifyRunnable;
 import org.eddy.pipeline.Pipeline;
+import org.eddy.pipeline.RetryRunnable;
 import org.eddy.pipeline.command.Command;
 import org.eddy.pipeline.command.CommandNotify;
 import org.eddy.solve.NotifyThreadFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
@@ -40,6 +43,11 @@ public class TaskService {
         Pipeline.putNotify(notify);
 
         return pipeline;
+    }
+
+    @PostConstruct
+    public void init() {
+        pool.submit(new RetryRunnable());
     }
 
     private String genPipeline() {

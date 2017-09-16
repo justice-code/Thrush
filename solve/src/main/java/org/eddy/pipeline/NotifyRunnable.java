@@ -18,10 +18,8 @@ import java.util.Objects;
 public class NotifyRunnable implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(NotifyRunnable.class);
-    // 3分钟
-    private static final int DEFAULT_TIME = 10;
-
-    private static final int RETRY_TIME = 3;
+    // 10分钟
+    public static final int DEFAULT_TIME = 10;
 
     private String pipelineGroup;
 

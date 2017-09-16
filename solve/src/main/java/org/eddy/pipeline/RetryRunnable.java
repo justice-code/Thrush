@@ -2,7 +2,6 @@ package org.eddy.pipeline;
 
 import org.eddy.config.DingConfig;
 import org.eddy.im.DingMsgSender;
-import org.eddy.im.MarkDownUtil;
 import org.eddy.pipeline.command.RetryCommand;
 
 public class RetryRunnable implements Runnable {

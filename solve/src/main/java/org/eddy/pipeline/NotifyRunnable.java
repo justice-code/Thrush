@@ -48,6 +48,7 @@ public class NotifyRunnable implements Runnable {
                 retryCommand = new RetryCommand(commandNotify);
             }
             retryCommand.increase();
+            retryCommand.complete(e);
 
             ExceptionPipeline.putNotify(retryCommand);
             execute();

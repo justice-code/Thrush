@@ -24,20 +24,40 @@
 <body>
 	<p2>购票验证</p2>
 	<form method="post" action="/task/confirmTicket">
-		<div class="form-group form-inline">
-			<label >验证码序号：</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="1" />1</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="2" />2</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="3" />3</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="4" />4</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="5" />5</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="6" />6</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="7" />7</label><br/>
-			<label><input type="checkbox" class="cb" th:name="numbers" value="8" />8</label><br/>
-			<div style="margin: 20px 0"></div>
-		</div>
-		<input type="hidden" name="pipeline" th:value="${pipeline}"/>
-		<button type="submit" class="btn btn-primary">Submit</button>
+		<fieldset>
+			<legend>登录验证</legend>
+			<div id="submit">
+				<h3 class="demoHeaders">选择验证码</h3>
+
+				<label for="checkbox-0">1</label>
+				<input type="checkbox" name="fields" id="checkbox-0" value="1"/>
+
+				<label for="checkbox-1">2</label>
+				<input type="checkbox" name="fields" id="checkbox-1" value="2"/>
+
+				<label for="checkbox-2">3</label>
+				<input type="checkbox" name="fields" id="checkbox-2" value="3" />
+
+				<label for="checkbox-3">4</label>
+				<input type="checkbox" name="fields" id="checkbox-3" value="4" />
+
+				<label for="checkbox-4">5</label>
+				<input type="checkbox" name="fields" id="checkbox-4" value="5" />
+
+				<label for="checkbox-5">6</label>
+				<input type="checkbox" name="fields" id="checkbox-5" value="6" />
+
+				<label for="checkbox-6">7</label>
+				<input type="checkbox" name="fields" id="checkbox-6" value="7" />
+
+				<label for="checkbox-7">8</label>
+				<input type="checkbox" name="fields" id="checkbox-7" value="8" />
+
+				<input type="hidden" name="pipeline" th:value="${pipeline}"/>
+				<br/><br/><br/>
+				<input type="submit" th:value="提交" />
+			</div>
+		</fieldset>
 	</form>
 </body>
 <script>

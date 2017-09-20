@@ -4,14 +4,20 @@
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 	<title>请输入购票验证码</title>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link href="/css/jquery-ui.css" rel="stylesheet"/>
+	<script src="/js/jquery.js"></script>
+	<script src="/js/jquery-ui.js"></script>
 	<style>
-		form{
-			text-align: center;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
+		.demoHeaders {
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+		div#users-contain { width: 100%; margin: 20px 0; }
+		div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+		div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+		.labelHeaders {
+			margin: 0.5em;
+			font-size: 18px;
 		}
 	</style>
 </head>
@@ -34,4 +40,9 @@
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 </body>
+<script>
+
+    $("#submit").controlgroup();
+
+</script>
 </html>

@@ -4,55 +4,71 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>选择车次</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="/css/jquery-ui.css" rel="stylesheet"/>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui.js"></script>
     <style>
-        form{
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .demoHeaders {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        div#users-contain { width: 100%; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .labelHeaders {
+            margin: 0.5em;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 <form action="/web/submitTrain" method="post">
-    <div class="form-group form-inline">
-        <label >选择日期：</label>
-        <input type="date" class="form-control" name="date"/>
-    </div>
-    <div class="form-group form-inline">
-        <label >起始站点：</label>
-        <input type="text" class="form-control" name="begin"/>
-    </div>
-    <div class="form-group form-inline">
-        <label >目的站点：</label>
-        <input type="text" class="form-control" name="end"/>
-    </div>
-    <div class="form-group form-inline">
-        <label >选择用户：</label>
-        <label th:each="item : ${passengers}"><input type="radio" name="passenger" class="form-control" th:value="${item}" th:text="${item}"/></label>
-        <!--<label ><input type="radio" name="passenger" class="form-control" />张三</label>-->
-        <!--<label ><input type="radio" name="passenger" class="form-control" />李四</label>-->
-    </div>
-    <div class="form-group form-inline">
-        <label >选择用户：</label>
-        <label ><input type="radio" name="seat" class="form-control" value="swz"/>商务座</label>
-        <label ><input type="radio" name="seat" class="form-control" value="ydz"/>一等座</label>
-        <label ><input type="radio" name="seat" class="form-control" value="edz"/>二等座</label>
-        <label ><input type="radio" name="seat" class="form-control" value="rw"/>软卧</label>
-        <label ><input type="radio" name="seat" class="form-control" value="yw"/>硬卧</label>
-        <label ><input type="radio" name="seat" class="form-control" value="yz"/>硬座</label>
-        <label ><input type="radio" name="seat" class="form-control" value="wz"/>无座</label>
-        <!--<label ><input type="radio" name="passenger" class="form-control" />张三</label>-->
-        <!--<label ><input type="radio" name="passenger" class="form-control" />李四</label>-->
-    </div>
-    <div class="form-group form-inline">
-        <label >选择车次：</label>
-        <input type="text"  class="form-control" name="train"/>
-    </div>
-    <input type="hidden" name="pipeline" th:value="${pipeline}"/>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <fieldset>
+        <div id="submit">
+            <div >
+                <h3 class="demoHeaders">选择日期：</h3>
+                <input type="date" class="form-control" name="date"/>
+            </div>
+            <div >
+                <h3 class="demoHeaders">起始站点：</h3>
+                <input type="text" class="form-control" name="begin"/>
+            </div>
+            <div >
+                <h3 class="demoHeaders">目的站点：</h3>
+                <input type="text" class="form-control" name="end"/>
+            </div>
+            <div >
+                <h3 class="demoHeaders">选择用户：</h3>
+                <label th:each="item : ${passengers}"><input type="radio" name="passenger" class="form-control" th:value="${item}" th:text="${item}"/></label>
+                <!--<label ><input type="radio" name="passenger" class="form-control" />张三</label>-->
+                <!--<label ><input type="radio" name="passenger" class="form-control" />李四</label>-->
+            </div>
+            <div class="form-group form-inline">
+                <h3 class="demoHeaders">选择坐席：</h3>
+                <label ><input type="radio" name="seat" class="form-control" value="swz"/>商务座</label>
+                <label ><input type="radio" name="seat" class="form-control" value="ydz"/>一等座</label>
+                <label ><input type="radio" name="seat" class="form-control" value="edz"/>二等座</label>
+                <label ><input type="radio" name="seat" class="form-control" value="rw"/>软卧</label>
+                <label ><input type="radio" name="seat" class="form-control" value="yw"/>硬卧</label>
+                <label ><input type="radio" name="seat" class="form-control" value="yz"/>硬座</label>
+                <label ><input type="radio" name="seat" class="form-control" value="wz"/>无座</label>
+                <!--<label ><input type="radio" name="passenger" class="form-control" />张三</label>-->
+                <!--<label ><input type="radio" name="passenger" class="form-control" />李四</label>-->
+            </div>
+            <div>
+                <h3 class="demoHeaders">选择车次：</h3>
+                <input type="text"  class="form-control" name="train"/>
+            </div>
+            <input type="hidden" name="pipeline" th:value="${pipeline}"/>
+            <br/><br/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </fieldset>
 </form>
 </body>
+<script>
+
+    $("#submit").controlgroup();
+
+</script>
 </html>

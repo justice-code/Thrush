@@ -21,8 +21,10 @@ public class LoginController {
     public String login(HttpSession session, String password) {
         if (StringUtils.equals(password, loginConfig.getPassword())) {
             session.setAttribute(LoginCheckAspect.LOGIN_ATTR_KEY, true);
+            return "/login/success";
+        } else {
+            return "redirect:/login/toLogin";
         }
-        return "redirect:/page/";
     }
 
     @RequestMapping("/toLogin")
